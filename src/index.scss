@@ -8,3 +8,7 @@
 @import "~bootstrap/scss/buttons";
 @import "~bootstrap/scss/utilities/borders";
 @import "~bootstrap/scss/card";
+
+svg, path {
+  pointer-events: none;
+}

@@ -1,31 +1,38 @@
 import React from "react";
-import "./Main.scss"
+import "./Main.scss";
 
-import Octicon, {Check, Trashcan} from "@primer/octicons-react";
+import Octicon, { Check, Trashcan } from "@primer/octicons-react";
+import CheckButton from "./CheckButton/CheckButton";
 
-function Main() {
+function Main(props) {
   return (
     <div className="Main">
       <div className="container">
         <div className="row align-items-center">
-          <div className="col-2 px-0">
-            <div className="btn-group-toggle d-flex justify-content-center">
-              <label className="btn btn-sm btn-light">
-                <input type="checkbox" />
-                <Octicon icon={Check} />
-              </label>
-            </div>
+          <div className="col-1 px-0 d-flex justify-content-center">
+            <CheckButton
+              isChecked={props.isChecked}
+              onClick={props.onClickInCheck}
+            >
+              <Octicon icon={Check} />
+            </CheckButton>
           </div>
-          <div className="col-8 px-0">
-            <p className="text-left text-truncate">Lorem ipsum dolor sit amet</p>
+          <div className="col-10">
+            <p
+              className={`text-left text-truncate ${
+                props.isChecked ? "text-deleted" : ""
+              }`}
+            >
+              {props.title}
+            </p>
           </div>
-          <div className="col-2 px-0">
-            <div className="btn-group-toggle d-flex justify-content-center">
-              <label className="btn btn-sm btn-light">
-                <input type="checkbox" />
-                <Octicon icon={Trashcan} />
-              </label>
-            </div>
+          <div className="col-1 px-0 d-flex justify-content-center">
+            <button
+              className="btn btn-sm btn-light"
+              onClick={props.onClickInDelete}
+            >
+              <Octicon icon={Trashcan} />
+            </button>
           </div>
         </div>
       </div>

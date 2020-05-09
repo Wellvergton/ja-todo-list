@@ -1,1 +1,9 @@
 @import "../../index.scss";
+
+.Todo .card-body {
+  min-height: 0;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 1.25rem;
+  transition: max-height .5s, padding .5s;
+}
