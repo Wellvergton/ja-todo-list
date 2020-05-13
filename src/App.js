@@ -8,37 +8,79 @@ function App() {
     todo1: {
       isChecked: false,
       isDeleted: false,
-      title: "All in",
+      title: "Daily",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit quia in temporibus impedit",
-      daysOfTheWeek: ["seg", "ter", "qua", "qui", "sex", "sab", "dom"],
+      type: "daily",
+      repetition: "",
     },
 
     todo2: {
-      isChecked: true,
+      isChecked: false,
       isDeleted: false,
-      title: "Checked",
+      title: "Weekly",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit quia in temporibus impedit",
-      daysOfTheWeek: ["seg", "ter", "qua", "qui"],
+      type: "weekly",
+      repetition: {
+        mon: false,
+        tue: true,
+        wed: true,
+        thu: true,
+        fri: false,
+        sat: true,
+        sun: false,
+      },
     },
 
     todo3: {
-      isChecked: true,
-      isDeleted: true,
-      title: "Lorem ipsum dolor sit amet, consectetur",
+      isChecked: false,
+      isDeleted: false,
+      title: "Monthly",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit quia in temporibus impedit",
-      daysOfTheWeek: ["seg", "qua", "sex", "sab"],
+      type: "monthly",
+      repetition: { day: 12 },
     },
 
     todo4: {
       isChecked: false,
       isDeleted: false,
-      title: "No repeat",
+      title: "Yearly",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit quia in temporibus impedit",
-      daysOfTheWeek: [],
+      type: "yearly",
+      repetition: { day: 14, month: 5 },
+    },
+
+    todo5: {
+      isChecked: false,
+      isDeleted: false,
+      title: "Someday",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit quia in temporibus impedit",
+      type: "someday",
+      repetition: "",
+    },
+
+    todo6: {
+      isChecked: false,
+      isDeleted: true,
+      title: "Deleted",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit quia in temporibus impedit",
+      type: "someday",
+      repetition: null,
+    },
+
+    todo7: {
+      isChecked: true,
+      isDeleted: false,
+      title: "Checked",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit quia in temporibus impedit",
+      type: "someday",
+      repetition: "",
     },
   };
 
@@ -46,7 +88,7 @@ function App() {
 
   for (let todo in data) {
     if (!data[todo].isDeleted) {
-      todos.push(<Todo bgColor="primary" data={data[todo]} />);
+      todos.push(<Todo data={data[todo]} key={data[todo].title} />);
     }
   }
 

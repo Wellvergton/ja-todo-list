@@ -36,11 +36,45 @@ class Todo extends React.Component {
   }
 
   render() {
-    let textColor = this.props.bgColor === "warning" ? "" : "text-white";
+    let today = new Date();
+    let currentDay = today.getDate();
+    let currentMonth = today.getMonth();
+    let currentWeekDay = new Intl.DateTimeFormat("en-US", { weekday: "short" })
+      .format(today.getDay())
+      .toLowerCase();
+
+    let todoDate = this.state.repetition;
+    let cardColors = {
+      daily: "bg-warning",
+      next: "bg-primary",
+      someday: "bg-success",
+      concluded: "bg-secondary",
+      notConcluded: "bg-danger",
+    };
+    let cardColor = "";
+
+    if (this.state.isChecked) {
+      cardColor = cardColors["concluded"];
+    } else if (cardColors[this.state.type]) {
+      cardColor = cardColors[this.state.type];
+    } else if (
+      todoDate.day === currentDay &&
+      todoDate.month === currentMonth + 1
+    ) {
+      cardColor = cardColors["daily"];
+    } else if (todoDate.day === currentDay) {
+      cardColor = cardColors["daily"];
+    } else if (this.state.repetition[currentWeekDay]) {
+      cardColor = cardColors["daily"];
+    } else {
+      cardColor = cardColors["next"];
+    }
+
+    let textColor = cardColor === "bg-warning" ? "" : "text-white";
 
     return (
-      <div className={`Todo my-2 mr-2 ${this.state.isDeleted ? "d-none" : ""}`}>
-        <div className={`card bg-${this.props.bgColor} ${textColor}`}>
+      <div className={`Todo my-2 ${this.state.isDeleted ? "d-none" : ""}`}>
+        <div className={`card ${cardColor} ${textColor}`}>
           <div className="card-header py-1">
             <Main
               title={this.state.title}
@@ -49,12 +83,15 @@ class Todo extends React.Component {
               onClickInCheck={this.check}
             />
           </div>
+
           <div className="card-body py-0" data-active="false">
             <TodoData
-              description={this.props.data.description}
-              days={this.props.data.daysOfTheWeek}
+              description={this.state.description}
+              infoType={this.state.type}
+              repetition={this.state.repetition}
             />
           </div>
+
           <div className="card-footer p-0">
             <InfoToggler textColor={`${textColor}`} onClick={this.hideData} />
           </div>
