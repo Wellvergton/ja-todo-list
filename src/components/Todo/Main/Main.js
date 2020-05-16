@@ -11,7 +11,7 @@ function Main(props) {
         <div className="row align-items-center">
           <div className="col-1 px-0 d-flex justify-content-center">
             <CheckButton
-              isChecked={props.isChecked}
+              status={props.status}
               onClick={props.onClickInCheck}
             >
               <Octicon icon={Check} />
@@ -20,7 +20,7 @@ function Main(props) {
           <div className="col-10">
             <p
               className={`text-left text-truncate ${
-                props.isChecked ? "text-deleted" : ""
+                props.status === "concluded" ? "text-deleted" : ""
               }`}
             >
               {props.title}

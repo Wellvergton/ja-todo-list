@@ -7,9 +7,9 @@ import Yearly from "./RepetitionInfo/Yearly";
 function TodoData(props) {
   let dataTypes = {
     daily: <p className="font-weight-bold">Everyday</p>,
-    weekly: <Weekly days={props.repetition} />,
-    monthly: <Monthly day={props.repetition.day} />,
-    yearly: <Yearly date={props.repetition} />,
+    weekly: <Weekly days={props.date} />,
+    monthly: <Monthly day={props.date.day} />,
+    yearly: <Yearly date={props.date} />,
     someday: <p className="font-weight-bold">Someday</p>,
   };
 

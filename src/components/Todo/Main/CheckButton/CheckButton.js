@@ -2,13 +2,21 @@ import React from "react";
 
 function CheckButton(props) {
   function handleClick(event) {
-    props.onClick();
-    event.target.classList.toggle("disabled");
+    if (props.status !== "deleted") {
+      props.onClick();
+      if (props.status !== "delayed") {
+        event.target.classList.toggle("disabled");
+      }
+    }
   }
 
   return (
     <button
-      className={`btn btn-sm btn-light ${props.isChecked ? "disabled" : ""}`}
+      className={`btn btn-sm btn-light ${
+        props.status === "concluded" || props.status === "deleted"
+          ? "disabled"
+          : ""
+      }`}
       onClick={handleClick}
     >
       {props.children}

@@ -7,7 +7,7 @@ function Yearly(props) {
   date = date.toLocaleDateString("en-US", { day: "2-digit", month: "long" });
 
   return (
-    <p>{date}</p>
+    <p className="font-weight-bold">{date}</p>
   );
 }
 
