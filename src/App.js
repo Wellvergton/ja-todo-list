@@ -4,8 +4,8 @@ import "./App.scss";
 import Todo from "./components/Todo/Todo";
 
 function App() {
-  let data = {
-    todo1: {
+  let data = [
+    {
       status: "today",
       title: "Today",
       description:
@@ -14,7 +14,7 @@ function App() {
       date: "",
     },
 
-    todo2: {
+    {
       status: "pending",
       title: "Weekly",
       description:
@@ -31,7 +31,7 @@ function App() {
       },
     },
 
-    todo3: {
+    {
       status: "pending",
       title: "Monthly",
       description:
@@ -40,7 +40,7 @@ function App() {
       date: { day: 30 },
     },
 
-    todo4: {
+    {
       status: "pending",
       title: "Yearly",
       description:
@@ -49,8 +49,8 @@ function App() {
       date: { day: 14, month: 11 },
     },
 
-    todo5: {
-      status: "pending",
+    {
+      status: "someday",
       title: "Someday",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit quia in temporibus impedit",
@@ -58,7 +58,7 @@ function App() {
       date: "",
     },
 
-    todo6: {
+    {
       status: "deleted",
       title: "Deleted",
       description:
@@ -67,7 +67,7 @@ function App() {
       date: "",
     },
 
-    todo7: {
+    {
       status: "concluded",
       title: "Checked",
       description:
@@ -76,7 +76,7 @@ function App() {
       date: "",
     },
 
-    todo8: {
+    {
       status: "delayed",
       title: "Delayed",
       description:
@@ -84,17 +84,37 @@ function App() {
       type: "yearly",
       date: { day: 1, month: 0 },
     },
+  ];
+
+  let todos = {
+    delayed: [],
+    today: [],
+    pending: [],
+    someday: [],
+    concluded: [],
+    deleted: [],
   };
 
-  let todos = [];
-
-  for (let todo in data) {
-    if (!data[todo].status !== "deleted") {
-      todos.push(<Todo data={data[todo]} key={data[todo].title} />);
-    }
+  for (let todo of data) {
+    todos[todo.status].push(<Todo data={todo} key={todo.title} />)
   }
 
-  return <div className="App">{todos}</div>;
+  return (
+    <div className="App">
+      {todos.delayed.length > 0 && <p className="h3">Delayed</p>}
+      {todos.delayed}
+      {todos.today.length > 0 && <p className="h3">Today</p>}
+      {todos.today}
+      {todos.pending.length > 0 && <p className="h3">Soon</p>}
+      {todos.pending}
+      {todos.someday.length > 0 && <p className="h3">Someday</p>}
+      {todos.someday}
+      {todos.concluded.length > 0 && <p className="h3">Concluded</p>}
+      {todos.concluded}
+      {todos.deleted.length > 0 && <p className="h3">Deleted</p>}
+      {todos.deleted}
+    </div>
+  );
 }
 
 export default App;

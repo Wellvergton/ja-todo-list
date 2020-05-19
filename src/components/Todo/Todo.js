@@ -75,10 +75,10 @@ class Todo extends React.Component {
       deleted: "bg-dark",
       delayed: "bg-danger",
       today: "bg-warning",
+      someday: "bg-success",
     };
     let pendingColors = {
       soon: "bg-primary",
-      someday: "bg-success",
     };
     let cardColor = "";
 
