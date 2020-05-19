@@ -40,10 +40,12 @@ class Todo extends React.Component {
   }
 
   delete(event) {
-    let todo = (function recursive(el) {
-      if (el.parentElement.classList.contains("Todo")) return el.parentElement;
+    let todo = (function recursive(element) {
+      if (element.parentElement.classList.contains("Todo")) {
+        return element.parentElement;
+      }
 
-      return recursive(el.parentElement);
+      return recursive(element.parentElement);
     })(event.target);
 
     todo.animate(
@@ -54,7 +56,9 @@ class Todo extends React.Component {
       { duration: 100 }
     );
 
-    setTimeout(() => this.setState({ status: "deleted" }), 100);
+    setTimeout(() => {
+      this.props.onDelete(this.state.title);
+    }, 100);
   }
 
   conclude() {
@@ -66,7 +70,9 @@ class Todo extends React.Component {
   }
 
   componentDidMount() {
-    if (this.isDelayed()) this.setState({ status: "delayed" });
+    if (this.state.status !== "deleted" && this.isDelayed()) {
+      this.setState({ status: "delayed" });
+    }
   }
 
   render() {
