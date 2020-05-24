@@ -1,6 +1,6 @@
 import React from "react";
 
-function WeeklyData(props) {
+function Weekly(props) {
   let days = [];
 
   for (let day in props.days) {
@@ -20,4 +20,4 @@ function WeeklyData(props) {
   );
 }
 
-export default WeeklyData;
+export default Weekly;

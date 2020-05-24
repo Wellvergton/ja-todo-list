@@ -8,11 +8,11 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { data: data };
-    this.delete = this.delete.bind(this);
-    this.conclude = this.conclude.bind(this);
+    this.deleteTodo = this.deleteTodo.bind(this);
+    this.concludeTodo = this.concludeTodo.bind(this);
   }
 
-  delete(todoTitle) {
+  deleteTodo(todoTitle) {
     this.setState({
       data: this.state.data.map((todo) => {
         if (todo.title === todoTitle) todo.status = "deleted";
@@ -21,7 +21,7 @@ class App extends React.Component {
     });
   }
 
-  conclude(todoTitle) {
+  concludeTodo(todoTitle) {
     this.setState({
       data: this.state.data.map((todo) => {
         if (todo.title === todoTitle) {
@@ -51,8 +51,8 @@ class App extends React.Component {
         <Todo
           data={todo}
           key={todo.title}
-          onDelete={this.delete}
-          onConclude={this.conclude}
+          onDelete={this.deleteTodo}
+          onConclude={this.concludeTodo}
         />
       );
     }

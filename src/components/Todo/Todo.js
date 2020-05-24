@@ -13,15 +13,15 @@ class Todo extends React.Component {
     this.isDelayed = this.isDelayed.bind(this);
   }
 
-  hideData(event) {
-    let todoData = event.target.parentNode.previousElementSibling;
+  hideTodoBody(event) {
+    let todoBody = event.target.parentNode.previousElementSibling;
 
-    if (todoData.dataset.active === "false") {
-      todoData.style.height = `${todoData.scrollHeight}px`;
-      todoData.dataset.active = "true";
+    if (todoBody.dataset.active === "false") {
+      todoBody.style.height = `${todoBody.scrollHeight}px`;
+      todoBody.dataset.active = "true";
     } else {
-      todoData.style.height = "0";
-      todoData.dataset.active = "false";
+      todoBody.style.height = "0";
+      todoBody.dataset.active = "false";
     }
   }
 
@@ -125,7 +125,10 @@ class Todo extends React.Component {
           </div>
 
           <div className="card-footer p-0">
-            <InfoToggler textColor={`${textColor}`} onClick={this.hideData} />
+            <InfoToggler
+              textColor={`${textColor}`}
+              onClick={this.hideTodoBody}
+            />
           </div>
         </div>
       </div>

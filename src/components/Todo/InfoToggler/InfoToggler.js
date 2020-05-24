@@ -4,13 +4,17 @@ import "./InfoToggler.scss";
 import Octicon, { ChevronDown } from "@primer/octicons-react";
 
 function InfoToggler(props) {
+  function animateChevron(chevronElement) {
+    if (chevronElement.style.rotate === "") {
+      chevronElement.style.rotate = "180deg";
+    } else {
+      chevronElement.style.rotate = "";
+    }
+  }
+
   function handleClick(event) {
     props.onClick(event);
-    if (event.target.children[0].style.rotate === "") {
-      event.target.children[0].style.rotate = "180deg";
-    } else {
-      event.target.children[0].style.rotate = "";
-    }
+    animateChevron(event.target.children[0]);
   }
 
   return (
