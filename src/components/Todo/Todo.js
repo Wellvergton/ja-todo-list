@@ -8,7 +8,6 @@ import InfoToggler from "./InfoToggler/InfoToggler";
 class Todo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.props.data;
     this.delete = this.delete.bind(this);
     this.conclude = this.conclude.bind(this);
     this.isDelayed = this.isDelayed.bind(this);
@@ -26,51 +25,56 @@ class Todo extends React.Component {
     }
   }
 
+  fadeOutTodo(element) {
+    let todoElement = (function findTodoElement(element) {
+      if (element.classList.contains("Todo")) {
+        return element;
+      }
+
+      return findTodoElement(element.parentElement);
+    })(element);
+
+    return new Promise((resolve, reject) => {
+      todoElement.animate(
+        [
+          { height: `${todoElement.scrollHeight}px` },
+          { height: "0px", opacity: "0", margin: "0" },
+        ],
+        { duration: 100 }
+      );
+
+      setTimeout(() => {
+        resolve();
+      }, 100);
+    });
+  }
+
+  async delete(event) {
+    await this.fadeOutTodo(event.target);
+    this.props.onDelete(this.props.data.title);
+  }
+
+  async conclude(event) {
+    await this.fadeOutTodo(event.target);
+    this.props.onConclude(this.props.data.title);
+  }
+
   isDelayed() {
     let today = new Date();
 
     if (
-      (this.state.type === "yearly" &&
-        today.getMonth() > this.state.date.month &&
-        today.getDate() > this.state.date.day) ||
-      (this.state.type === "monthly" && today.getDate() > this.state.date.day)
+      (this.props.data.type === "yearly" &&
+        today.getMonth() > this.props.data.date.month &&
+        today.getDate() > this.props.data.date.day) ||
+      (this.props.data.type === "monthly" &&
+        today.getDate() > this.props.data.date.day)
     ) {
       return true;
     }
   }
 
-  delete(event) {
-    let todo = (function recursive(element) {
-      if (element.parentElement.classList.contains("Todo")) {
-        return element.parentElement;
-      }
-
-      return recursive(element.parentElement);
-    })(event.target);
-
-    todo.animate(
-      [
-        { height: `${todo.scrollHeight}px` },
-        { height: "0px", opacity: "0", margin: "0" },
-      ],
-      { duration: 100 }
-    );
-
-    setTimeout(() => {
-      this.props.onDelete(this.state.title);
-    }, 100);
-  }
-
-  conclude() {
-    if (this.state.status === "delayed" || this.state.status === "concluded") {
-      this.setState({ status: "pending" });
-    } else {
-      this.setState({ status: "concluded" });
-    }
-  }
-
   componentDidMount() {
-    if (this.state.status !== "deleted" && this.isDelayed()) {
+    if (this.props.data.status !== "deleted" && this.isDelayed()) {
       this.setState({ status: "delayed" });
     }
   }
@@ -88,11 +92,11 @@ class Todo extends React.Component {
     };
     let cardColor = "";
 
-    if (this.state.status !== "pending") {
-      cardColor = notPendingColors[this.state.status];
+    if (this.props.data.status !== "pending") {
+      cardColor = notPendingColors[this.props.data.status];
     } else {
-      if (pendingColors[this.state.type]) {
-        cardColor = pendingColors[this.state.type];
+      if (pendingColors[this.props.data.type]) {
+        cardColor = pendingColors[this.props.data.type];
       } else {
         cardColor = pendingColors["soon"];
       }
@@ -105,8 +109,8 @@ class Todo extends React.Component {
         <div className={`card ${cardColor} ${textColor}`}>
           <div className="card-header py-1">
             <Main
-              title={this.state.title}
-              status={this.state.status}
+              title={this.props.data.title}
+              status={this.props.data.status}
               onClickInDelete={this.delete}
               onClickInCheck={this.conclude}
             />
@@ -114,9 +118,9 @@ class Todo extends React.Component {
 
           <div className="card-body py-0" data-active="false">
             <TodoData
-              description={this.state.description}
-              infoType={this.state.type}
-              date={this.state.date}
+              description={this.props.data.description}
+              infoType={this.props.data.type}
+              date={this.props.data.date}
             />
           </div>
 

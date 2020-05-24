@@ -7,16 +7,32 @@ import data from "./mock-todos";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {data: data};
+    this.state = { data: data };
     this.delete = this.delete.bind(this);
+    this.conclude = this.conclude.bind(this);
   }
-  
+
   delete(todoTitle) {
     this.setState({
       data: this.state.data.map((todo) => {
         if (todo.title === todoTitle) todo.status = "deleted";
         return todo;
-      })
+      }),
+    });
+  }
+
+  conclude(todoTitle) {
+    this.setState({
+      data: this.state.data.map((todo) => {
+        if (todo.title === todoTitle) {
+          if (todo.status === "delayed" || todo.status === "concluded") {
+            todo.status = "pending";
+          } else {
+            todo.status = "concluded";
+          }
+        }
+        return todo;
+      }),
     });
   }
 
@@ -32,8 +48,13 @@ class App extends React.Component {
 
     for (let todo of this.state.data) {
       todos[todo.status].push(
-        <Todo data={todo} key={todo.title} onDelete={this.delete} />
-      )
+        <Todo
+          data={todo}
+          key={todo.title}
+          onDelete={this.delete}
+          onConclude={this.conclude}
+        />
+      );
     }
 
     let sections = [];
@@ -42,23 +63,18 @@ class App extends React.Component {
       if (todoType !== "deleted") {
         sections.push(
           <section key={todoType}>
-            {
-              todos[todoType].length > 0 &&
+            {todos[todoType].length > 0 && (
               <p className="h3 font-weight-bold">
                 {todoType.replace(todoType[0], todoType[0].toUpperCase())}
               </p>
-            }
+            )}
             {todos[todoType]}
           </section>
         );
       }
     }
 
-    return (
-      <div className="App">
-        {sections}
-      </div>
-    );
+    return <div className="App">{sections}</div>;
   }
 }
 
