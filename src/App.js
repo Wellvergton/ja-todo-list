@@ -25,7 +25,14 @@ class App extends React.Component {
   concludeTodo(todoTitle) {
     this.setState({
       data: this.state.data.map((todo) => {
-        if (todo.title === todoTitle) todo.status = "concluded";
+        if (todo.title === todoTitle) {
+          if (todo.status !== "concluded") {
+            todo.status = "concluded";
+          } else {
+            todo.status = "pending";
+            setProperStatus(todo);
+          }
+        }
         return todo;
       }),
     });
