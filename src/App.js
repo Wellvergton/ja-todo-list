@@ -3,6 +3,7 @@ import "./App.scss";
 
 import Todo from "./Todo/Todo";
 import data from "./mock-todos";
+import setProperStatus from "./setProperStatus";
 
 class App extends React.Component {
   constructor(props) {
@@ -24,13 +25,7 @@ class App extends React.Component {
   concludeTodo(todoTitle) {
     this.setState({
       data: this.state.data.map((todo) => {
-        if (todo.title === todoTitle) {
-          if (todo.status === "delayed" || todo.status === "concluded") {
-            todo.status = "pending";
-          } else {
-            todo.status = "concluded";
-          }
-        }
+        if (todo.title === todoTitle) todo.status = "concluded";
         return todo;
       }),
     });
@@ -47,6 +42,7 @@ class App extends React.Component {
     };
 
     for (let todo of this.state.data) {
+      todo = setProperStatus(todo);
       todos[todo.status].push(
         <Todo
           data={todo}
