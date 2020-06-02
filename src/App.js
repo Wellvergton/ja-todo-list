@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.scss";
 
-import Todo from "./components/Todo/Todo";
+import Todo from "./Todo/Todo";
 import data from "./mock-todos";
 
 class App extends React.Component {

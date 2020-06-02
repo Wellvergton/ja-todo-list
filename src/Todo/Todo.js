@@ -10,7 +10,6 @@ class Todo extends React.Component {
     super(props);
     this.delete = this.delete.bind(this);
     this.conclude = this.conclude.bind(this);
-    this.isDelayed = this.isDelayed.bind(this);
   }
 
   hideTodoBody(event) {
@@ -59,49 +58,16 @@ class Todo extends React.Component {
     this.props.onConclude(this.props.data.title);
   }
 
-  isDelayed() {
-    let today = new Date();
-
-    if (
-      (this.props.data.type === "yearly" &&
-        today.getMonth() > this.props.data.date.month &&
-        today.getDate() > this.props.data.date.day) ||
-      (this.props.data.type === "monthly" &&
-        today.getDate() > this.props.data.date.day)
-    ) {
-      return true;
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.data.status !== "deleted" && this.isDelayed()) {
-      this.setState({ status: "delayed" });
-    }
-  }
-
   render() {
-    let notPendingColors = {
+    let colors = {
       concluded: "bg-secondary",
       deleted: "bg-dark",
       delayed: "bg-danger",
       today: "bg-warning",
       someday: "bg-success",
+      pending: "bg-primary",
     };
-    let pendingColors = {
-      soon: "bg-primary",
-    };
-    let cardColor = "";
-
-    if (this.props.data.status !== "pending") {
-      cardColor = notPendingColors[this.props.data.status];
-    } else {
-      if (pendingColors[this.props.data.type]) {
-        cardColor = pendingColors[this.props.data.type];
-      } else {
-        cardColor = pendingColors["soon"];
-      }
-    }
-
+    let cardColor = colors[this.props.data.status];
     let textColor = cardColor === "bg-warning" ? "" : "text-white";
 
     return (
