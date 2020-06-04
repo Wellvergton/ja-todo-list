@@ -1,5 +1,6 @@
 const currentDate = new Date();
 const currentDay = currentDate.getDay();
+const currentDayOfTheWeek = currentDate.getDay();
 const currentMonth = currentDate.getMonth();
 const currentYear = currentDate.getFullYear();
 const currentTime = new Date(currentYear, currentMonth, currentDay).getTime();
@@ -30,6 +31,35 @@ const functions = {
 
     if (dataBasedDate < currentTime && data.status !== "concluded") {
       data.status = "delayed";
+      return data;
+    }
+  },
+
+  weekly(data) {
+    if (data.date.includes(currentDayOfTheWeek) && data.status !== "concluded") {
+      data.status = "today";
+      return data;
+    }
+
+    if (
+      (!data.date.includes(currentDayOfTheWeek) && data.status === "concluded") ||
+      data.status === "pending"
+    ) {
+      data.status = "pending"
+      return data;
+    }
+
+    if (data.date.includes(currentDayOfTheWeek) && data.status === "concluded") {
+      data.status = "concluded"
+      return data;
+    }
+
+    if (
+      !data.date.includes(currentDayOfTheWeek) &&
+      data.status !== "concluded" &&
+      data.status !== "pending"
+    ) {
+      data.status = "delayed"
       return data;
     }
   },
