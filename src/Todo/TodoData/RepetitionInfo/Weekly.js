@@ -1,21 +1,28 @@
 import React from "react";
 
 function Weekly(props) {
-  let days = [];
+  let daysIndicators = [];
+  const daysOfTheWeek = {
+    "0": "sun",
+    "1": "mon",
+    "2": "tue",
+    "3": "wed",
+    "4": "thu",
+    "5": "fri",
+    "6": "sat",
+  }
 
-  for (let day in props.days) {
-    if (props.days[day] === true) {
-      days.push(
-        <span className="font-weight-bold text-capitalize" key={day}>
-          {`${day} `}
-        </span>
-      );
-    }
+  for (let day of props.days) {
+    daysIndicators.push(
+      <span className="font-weight-bold text-capitalize" key={day}>
+        {`${daysOfTheWeek[day]} `}
+      </span>
+    );
   }
 
   return (
     <div>
-      <p>{days}</p>
+      <p>{daysIndicators}</p>
     </div>
   );
 }
