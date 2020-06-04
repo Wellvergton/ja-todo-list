@@ -19,7 +19,7 @@ const functions = {
     }
 
     if (dataBasedDate < currentTime && data.status === "concluded") {
-      data.date.day += 1;
+      data.date.day = currentDay;
       data.status = "today";
       return data;
     }
