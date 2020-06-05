@@ -4,12 +4,15 @@
 @import "~bootstrap/scss/bootstrap-grid.scss";
 @import "~bootstrap/scss/utilities/text";
 @import "~bootstrap/scss/utilities/background";
-@import "~bootstrap/scss/button-group";
-@import "~bootstrap/scss/buttons";
 @import "~bootstrap/scss/utilities/borders";
-@import "~bootstrap/scss/card";
+@import "~bootstrap/scss/utilities/sizing";
 @import "~bootstrap/scss/badge";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/button-group";
+@import "~bootstrap/scss/card";
+@import "~bootstrap/scss/navbar";
 
 svg, path {
   pointer-events: none;
 }
+

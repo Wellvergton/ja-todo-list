@@ -1,0 +1,14 @@
+@import "../index.scss";
+
+.navbar {
+  overflow: hidden;
+}
+
+.navbar .navbar-nav {
+  max-height: 0px;
+  transition: max-height .4s linear, margin .3s linear;
+}
+
+.navbar .navbar-nav .nav-item {
+  cursor: pointer;
+}

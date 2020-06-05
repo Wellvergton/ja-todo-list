@@ -2,15 +2,23 @@ import React from "react";
 import "./App.scss";
 
 import Todo from "./Todo/Todo";
+import ToolBar from "./ToolBar/ToolBar";
 import data from "./mock-todos";
 import setProperStatus from "./setProperStatus";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { data: data };
+    this.state = {
+      data: data,
+      contexts: ["general", "deleted"],
+      currentContext: "general",
+    };
     this.deleteTodo = this.deleteTodo.bind(this);
     this.concludeTodo = this.concludeTodo.bind(this);
+    this.addTodo = this.addTodo.bind(this);
+    this.setCurrentContext = this.setCurrentContext.bind(this);
+    this.addContext = this.addContext.bind(this);
   }
 
   deleteTodo(todoTitle) {
@@ -36,6 +44,24 @@ class App extends React.Component {
         return todo;
       }),
     });
+  }
+
+  addContext(name) {
+    let contextsCopy = this.state.contexts;
+    contextsCopy.push(name);
+    this.setState({contexts: contextsCopy});
+  }
+
+  callCreateContextModal() {
+    console.log("callCreateContextModal");
+  }
+
+  addTodo() {
+    console.log("addTodo");
+  }
+
+  setCurrentContext() {
+    console.log("setCurrentContext");
   }
 
   render() {
@@ -77,7 +103,18 @@ class App extends React.Component {
       }
     }
 
-    return <div className="App">{sections}</div>;
+    return (
+      <div className="App">
+        <ToolBar
+          contexts={this.state.contexts}
+          contextName={this.state.currentContext}
+          addTodo={this.addTodo}
+          changeContext={this.setCurrentContext}
+          onCreateContext={this.callCreateContextModal}
+        />
+        <main>{sections}</main>
+      </div>
+    );
   }
 }
 
