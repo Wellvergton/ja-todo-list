@@ -1,5 +1,5 @@
 const currentDate = new Date();
-const currentDay = currentDate.getDay();
+const currentDay = currentDate.getDate();
 const currentDayOfTheWeek = currentDate.getDay();
 const currentMonth = currentDate.getMonth();
 const currentYear = currentDate.getFullYear();
