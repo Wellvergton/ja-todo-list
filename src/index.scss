@@ -2,14 +2,18 @@
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/bootstrap-grid.scss";
-@import "~bootstrap/scss/utilities/text";
 @import "~bootstrap/scss/utilities/background";
 @import "~bootstrap/scss/utilities/borders";
+@import "~bootstrap/scss/utilities/position";
 @import "~bootstrap/scss/utilities/sizing";
+@import "~bootstrap/scss/utilities/text";
 @import "~bootstrap/scss/badge";
 @import "~bootstrap/scss/buttons";
 @import "~bootstrap/scss/button-group";
 @import "~bootstrap/scss/card";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/list-group";
+@import "~bootstrap/scss/modal";
 @import "~bootstrap/scss/navbar";
 
 svg, path {

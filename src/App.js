@@ -49,11 +49,7 @@ class App extends React.Component {
   addContext(name) {
     let contextsCopy = this.state.contexts;
     contextsCopy.push(name);
-    this.setState({contexts: contextsCopy});
-  }
-
-  callCreateContextModal() {
-    console.log("callCreateContextModal");
+    this.setState({ contexts: contextsCopy });
   }
 
   addTodo() {
@@ -110,7 +106,7 @@ class App extends React.Component {
           contextName={this.state.currentContext}
           addTodo={this.addTodo}
           changeContext={this.setCurrentContext}
-          onCreateContext={this.callCreateContextModal}
+          onCreateContext={this.addContext}
         />
         <main>{sections}</main>
       </div>
