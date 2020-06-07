@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "react-bootstrap/Button";
 
 function CheckButton(props) {
   function handleClick(event) {
@@ -11,8 +12,10 @@ function CheckButton(props) {
   }
 
   return (
-    <button
-      className={`btn btn-sm btn-light ${
+    <Button
+      size="sm"
+      variant="light"
+      className={`text-dark ${
         props.status === "concluded" || props.status === "deleted"
           ? "disabled"
           : ""
@@ -20,7 +23,7 @@ function CheckButton(props) {
       onClick={handleClick}
     >
       {props.children}
-    </button>
+    </Button>
   );
 }
 

@@ -1,23 +1,26 @@
 import React from "react";
 import "./Main.scss";
-
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 import Octicon, { Check, Trashcan } from "@primer/octicons-react";
 import CheckButton from "./CheckButton/CheckButton";
 
 function Main(props) {
   return (
     <div className="Main">
-      <div className="container">
-        <div className="row align-items-center">
-          <div className="col-1 px-0 d-flex justify-content-center">
+      <Container>
+        <Row className="align-items-center">
+          <Col className="px-0 d-flex justify-content-center" xs={1}>
             <CheckButton
               status={props.status}
               onClick={props.onClickInCheck}
             >
               <Octicon icon={Check} />
             </CheckButton>
-          </div>
-          <div className="col-10">
+          </Col>
+          <Col>
             <p
               className={`text-left text-truncate ${
                 props.status === "concluded" ? "text-deleted" : ""
@@ -25,17 +28,14 @@ function Main(props) {
             >
               {props.title}
             </p>
-          </div>
-          <div className="col-1 px-0 d-flex justify-content-center">
-            <button
-              className="btn btn-sm btn-light"
-              onClick={props.onClickInDelete}
-            >
+          </Col>
+          <Col className="px-0 d-flex justify-content-center" xs={1}>
+            <Button size="sm" variant="light" onClick={props.onClickInDelete}>
               <Octicon icon={Trashcan} />
-            </button>
-          </div>
-        </div>
-      </div>
+            </Button>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }

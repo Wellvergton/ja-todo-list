@@ -1,5 +1,6 @@
 import React from "react";
 import "./Todo.scss";
+import Card from "react-bootstrap/Card";
 
 import Main from "./Main/Main";
 import TodoData from "./TodoData/TodoData";
@@ -60,43 +61,42 @@ class Todo extends React.Component {
 
   render() {
     let colors = {
-      concluded: "bg-secondary",
-      deleted: "bg-dark",
-      delayed: "bg-danger",
-      today: "bg-warning",
-      someday: "bg-success",
-      pending: "bg-primary",
+      concluded: "secondary",
+      deleted: "dark",
+      delayed: "danger",
+      today: "warning",
+      someday: "success",
+      pending: "primary",
     };
     let cardColor = colors[this.props.data.status];
-    let textColor = cardColor === "bg-warning" ? "" : "text-white";
+    let textColor = cardColor === "warning" ? "dark" : "white";
 
     return (
       <div className={"Todo my-2"}>
-        <div className={`card ${cardColor} ${textColor}`}>
-          <div className="card-header py-1">
+        <Card bg={cardColor} text={textColor}>
+          <Card.Header className="py-1">
             <Main
               title={this.props.data.title}
               status={this.props.data.status}
               onClickInDelete={this.delete}
               onClickInCheck={this.conclude}
             />
-          </div>
-
-          <div className="card-body py-0" data-active="false">
+          </Card.Header>
+          <Card.Body className="py-0" data-active="false">
             <TodoData
               description={this.props.data.description}
               infoType={this.props.data.type}
               date={this.props.data.date}
             />
-          </div>
-
-          <div className="card-footer p-0">
+          </Card.Body>
+          <Card.Footer className="p-0">
             <InfoToggler
+              bgColor={cardColor}
               textColor={`${textColor}`}
               onClick={this.hideTodoBody}
             />
-          </div>
-        </div>
+          </Card.Footer>
+        </Card>
       </div>
     );
   }

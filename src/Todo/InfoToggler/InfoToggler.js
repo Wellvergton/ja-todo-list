@@ -1,6 +1,6 @@
 import React from "react";
 import "./InfoToggler.scss";
-
+import Button from "react-bootstrap/Button";
 import Octicon, { ChevronDown } from "@primer/octicons-react";
 
 function InfoToggler(props) {
@@ -18,12 +18,14 @@ function InfoToggler(props) {
   }
 
   return (
-    <button
-      className={`InfoToggler btn btn-block ${props.textColor} p-0`}
+    <Button
+      className={`InfoToggler text-${props.textColor} p-0`}
+      variant={props.bgColor}
+      block
       onClick={handleClick}
     >
       <Octicon icon={ChevronDown} />
-    </button>
+    </Button>
   );
 }
 
