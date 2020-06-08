@@ -67,13 +67,12 @@ class ToolBar extends React.Component {
 
     return (
       <>
-        {this.state.showCreateContextModal === true && (
-          <CreateContextModal
-            contexts={this.props.contexts}
-            onClose={this.showHideContextModal}
-            onSave={this.handleSave}
-          />
-        )}
+        <CreateContextModal
+          show={this.state.showCreateContextModal}
+          contexts={this.props.contexts}
+          onClose={this.showHideContextModal}
+          onSave={this.handleSave}
+        />
         <Navbar bg="light" expand="md">
           <Button variant="light" onClick={this.showHideMenu}>
             <Octicon

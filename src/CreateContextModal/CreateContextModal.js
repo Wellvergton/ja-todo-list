@@ -6,7 +6,7 @@ import Modal from "react-bootstrap/Modal";
 class CreateContextModal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { show: true, newContextName: "", nameIsInvalid: false };
+    this.state = { newContextName: "", nameIsInvalid: false };
     this.handleClose = this.handleClose.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleInput = this.handleInput.bind(this);
@@ -36,7 +36,7 @@ class CreateContextModal extends React.Component {
   render() {
     return (
       <Modal
-        show={this.state.show}
+        {...this.props}
         onHide={this.handleClose}
         backdrop="static"
         animation={false}
