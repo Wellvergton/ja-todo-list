@@ -23,8 +23,12 @@ class CreateContextModal extends React.Component {
   }
 
   handleInput(event) {
-    this.setState({ newContextName: event.target.value.toLowerCase() });
-    this.props.contexts.includes(event.target.value.toLowerCase())
+    const value = event.target.value;
+    const contexts = this.props.contexts;
+
+    this.setState({ newContextName: value.toLowerCase() });
+
+    contexts.includes(value.toLowerCase())
       ? this.setState({ nameIsInvalid: true })
       : this.setState({ nameIsInvalid: false });
   }
@@ -64,7 +68,9 @@ class CreateContextModal extends React.Component {
           <Button
             variant="primary"
             onClick={this.handleSave}
-            disabled={this.state.nameIsInvalid}
+            disabled={
+              this.state.nameIsInvalid || this.state.newContextName === ""
+            }
           >
             Save
           </Button>
