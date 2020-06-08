@@ -13,7 +13,7 @@ function InfoToggler(props) {
   }
 
   function handleClick(event) {
-    props.onClick(event);
+    props.onClick();
     animateChevron(event.target.children[0]);
   }
 

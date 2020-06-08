@@ -9,35 +9,29 @@ import InfoToggler from "./InfoToggler/InfoToggler";
 class Todo extends React.Component {
   constructor(props) {
     super(props);
+    this.todo = React.createRef();
+    this.showCardBody = false;
+    this.cardBody = React.createRef();
     this.delete = this.delete.bind(this);
     this.conclude = this.conclude.bind(this);
+    this.hideTodoBody = this.hideTodoBody.bind(this);
   }
 
-  hideTodoBody(event) {
-    let todoBody = event.target.parentNode.previousElementSibling;
-
-    if (todoBody.dataset.active === "false") {
-      todoBody.style.height = `${todoBody.scrollHeight}px`;
-      todoBody.dataset.active = "true";
+  hideTodoBody() {
+    if (this.showCardBody === false) {
+      this.cardBody.current.style.height = `${this.cardBody.current.scrollHeight}px`;
+      this.showCardBody = true;
     } else {
-      todoBody.style.height = "0";
-      todoBody.dataset.active = "false";
+      this.cardBody.current.style.height = "0";
+      this.showCardBody = false;
     }
   }
 
-  fadeOutTodo(element) {
-    let todoElement = (function findTodoElement(element) {
-      if (element.classList.contains("Todo")) {
-        return element;
-      }
-
-      return findTodoElement(element.parentElement);
-    })(element);
-
+  fadeOutTodo() {
     return new Promise((resolve, reject) => {
-      todoElement.animate(
+      this.todo.current.animate(
         [
-          { height: `${todoElement.scrollHeight}px` },
+          { height: `${this.todo.current.scrollHeight}px` },
           { height: "0px", opacity: "0", margin: "0" },
         ],
         { duration: 100 }
@@ -49,13 +43,13 @@ class Todo extends React.Component {
     });
   }
 
-  async delete(event) {
-    await this.fadeOutTodo(event.target);
+  async delete() {
+    await this.fadeOutTodo();
     this.props.onDelete(this.props.data.title);
   }
 
-  async conclude(event) {
-    await this.fadeOutTodo(event.target);
+  async conclude() {
+    await this.fadeOutTodo();
     this.props.onConclude(this.props.data.title);
   }
 
@@ -72,7 +66,7 @@ class Todo extends React.Component {
     let textColor = cardColor === "warning" ? "dark" : "white";
 
     return (
-      <div className={"Todo my-2"}>
+      <div className={"Todo my-2"} ref={this.todo}>
         <Card bg={cardColor} text={textColor}>
           <Card.Header className="py-1">
             <Main
@@ -82,7 +76,7 @@ class Todo extends React.Component {
               onClickInCheck={this.conclude}
             />
           </Card.Header>
-          <Card.Body className="py-0" data-active="false">
+          <Card.Body className="py-0" ref={this.cardBody}>
             <TodoData
               description={this.props.data.description}
               infoType={this.props.data.type}
