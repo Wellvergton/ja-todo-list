@@ -13,8 +13,8 @@ class CreateContextModal extends React.Component {
   }
 
   handleClose() {
-    this.setState({ show: false });
     this.props.onClose();
+    this.setState({ nameIsInvalid: false });
   }
 
   handleSave() {
@@ -36,7 +36,7 @@ class CreateContextModal extends React.Component {
   render() {
     return (
       <Modal
-        {...this.props}
+        show={this.props.show}
         onHide={this.handleClose}
         backdrop="static"
         animation={false}
