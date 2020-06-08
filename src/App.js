@@ -75,7 +75,7 @@ class App extends React.Component {
       todos[todo.status].push(
         <Todo
           data={todo}
-          key={todo.title}
+          key={todo.title + new Date().getMilliseconds()}
           onDelete={this.deleteTodo}
           onConclude={this.concludeTodo}
         />
