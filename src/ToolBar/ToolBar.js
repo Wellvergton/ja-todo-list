@@ -5,6 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Octicon, { ListUnordered, Plus, X } from "@primer/octicons-react";
 import CreateContextModal from "../CreateContextModal/CreateContextModal";
+import CreateTodoModal from "../CreateTodoModal/CreateTodoModal";
 
 class ToolBar extends React.Component {
   constructor(props) {
@@ -12,11 +13,13 @@ class ToolBar extends React.Component {
     this.state = {
       menuIsVisible: false,
       showCreateContextModal: false,
+      showCreateTodoModal: false,
     };
     this.nav = React.createRef();
     this.showHideMenu = this.showHideMenu.bind(this);
     this.setNavStyle = this.setNavStyle.bind(this);
     this.showHideContextModal = this.showHideContextModal.bind(this);
+    this.showHideTodoModal = this.showHideTodoModal.bind(this);
     this.handleSave = this.handleSave.bind(this);
   }
 
@@ -34,6 +37,12 @@ class ToolBar extends React.Component {
   showHideContextModal() {
     this.setState({
       showCreateContextModal: !this.state.showCreateContextModal,
+    });
+  }
+
+  showHideTodoModal() {
+    this.setState({
+      showCreateTodoModal: !this.state.showCreateTodoModal,
     });
   }
 
@@ -73,6 +82,12 @@ class ToolBar extends React.Component {
           onClose={this.showHideContextModal}
           onSave={this.handleSave}
         />
+        <CreateTodoModal
+          show={this.state.showCreateTodoModal}
+          contexts={this.props.contexts}
+          onClose={this.showHideTodoModal}
+          onSave={this.props.addTodo}
+        />
         <Navbar bg="light" expand="md">
           <Button variant="light" onClick={this.showHideMenu}>
             <Octicon
@@ -83,7 +98,10 @@ class ToolBar extends React.Component {
           <Navbar.Text className="text-capitalize text-body">
             {this.props.contextName}
           </Navbar.Text>
-          <Button variant="light" onClick={this.props.addTodo}>
+          <Button
+            variant="light"
+            onClick={this.showHideTodoModal}
+          >
             <Octicon icon={Plus} size="medium" />
           </Button>
           <Nav ref={this.nav} className="w-100">
