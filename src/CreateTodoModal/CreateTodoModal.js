@@ -86,6 +86,12 @@ class CreateTodoModal extends React.Component {
                 {this.state.nameIsBlank ? "A name is required" : ""}
               </Form.Text>
             </Form.Group>
+            <Form.Group controlId="newTodoContext">
+              <Form.Label>Context</Form.Label>
+              <Form.Control as="select" className="mt-1" name="context" custom>
+                {contexts}
+              </Form.Control>
+            </Form.Group>
             <Form.Group controlId="newTodoType">
               <Form.Label>Type</Form.Label>
               <Form.Control as="select" className="mt-1" name="type" custom>
@@ -96,13 +102,7 @@ class CreateTodoModal extends React.Component {
                 <option value="someday">Someday</option>
               </Form.Control>
             </Form.Group>
-            <Form.Group controlId="newTodoContext">
-              <Form.Label>Context</Form.Label>
-              <Form.Control as="select" className="mt-1" name="context" custom>
-                {contexts}
-              </Form.Control>
-            </Form.Group>
-            {typesOptions[this.state.selectedType] || ""}
+            {typesOptions[this.state.formData.type] || ""}
             <Form.Group controlId="newTodoDescription">
               <Form.Label>Description</Form.Label>
               <Form.Control
