@@ -2,6 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import WeeklyOption from "./WeeklyOption";
 import MonthlyOption from "./MonthlyOption";
 import YearlyOptions from "./YearlyOption";
 
@@ -30,7 +31,20 @@ class CreateTodoModal extends React.Component {
     const name = event.target.name;
     const value = event.target.value;
     const formDataCopy = this.state.formData;
-    formDataCopy[name] = value;
+
+    if (name === "weekly") {
+      if (!Array.isArray(formDataCopy.day)) {
+        formDataCopy.day = [];
+      }
+
+      if (!formDataCopy.day.includes(value)) {
+        formDataCopy.day.push(value);
+      } else {
+        formDataCopy.day = formDataCopy.day.filter((day) => day !== value);
+      }
+    } else {
+      formDataCopy[name] = value;
+    }
 
     this.setState({ formData: formDataCopy });
   }
@@ -53,6 +67,7 @@ class CreateTodoModal extends React.Component {
 
   render() {
     const typesOptions = {
+      weekly: <WeeklyOption />,
       monthly: <MonthlyOption />,
       yearly: <YearlyOptions />,
     };
