@@ -10,7 +10,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: data,
+      data: [],
       contexts: ["general", "deleted"],
       currentContext: "general",
     };
@@ -52,8 +52,59 @@ class App extends React.Component {
     this.setState({ contexts: contextsCopy });
   }
 
-  addTodo() {
-    console.log("addTodo");
+  functions = {
+    daily(data) {
+      data.date.day = new Date().getDate();
+      return data;
+    },
+    weekly(data) {
+      const today = new Date().getDay();
+
+      if (data.date.includes(today)) {
+        data.status = "today";
+      } else {
+        data.status = "pending";
+        console.log("A");
+      }
+
+      return data;
+    },
+    monthly(data) {
+      const date = data.date;
+
+      if (date.day < new Date().getDate()) {
+        date.month = new Date().getMonth() + 1;
+      } else {
+        date.month = new Date().getMonth();
+      }
+
+      data.date = date;
+      return data;
+    },
+    yearly(data) {
+      let date = new Date();
+      date.setDate(data.date.day);
+      date.setMonth(data.date.month);
+
+      if (date.getMonth() < new Date().getMonth()) {
+        date.getDate() < new Date().getDate()
+          ? (data.date.year = date.getFullYear() + 1)
+          : (data.date.year = date.getFullYear());
+      } else {
+        data.date.year = date.getFullYear();
+      }
+
+      return data;
+    },
+  };
+
+  addTodo(data) {
+    const todos = this.state.data;
+    if (this.functions[data.type]) {
+      data = this.functions[data.type](data);
+    }
+    todos.push(data);
+    this.setState({ data: todos });
   }
 
   setCurrentContext() {

@@ -10,19 +10,17 @@ class CreateTodoModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false,
       formData: {
-        name: "",
+        title: "",
         context: "general",
         description: "",
         type: "daily",
-        day: 1,
-        month: 0,
+        date: {},
       },
-      nameIsBlank: false,
+      titleIsBlank: false,
     };
     this.handleChange = this.handleChange.bind(this);
-    this.isNameBlank = this.isNameBlank.bind(this);
+    this.isTitleBlank = this.isTitleBlank.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSave = this.handleSave.bind(this);
   }
@@ -33,15 +31,19 @@ class CreateTodoModal extends React.Component {
     const formDataCopy = this.state.formData;
 
     if (name === "weekly") {
-      if (!Array.isArray(formDataCopy.day)) {
-        formDataCopy.day = [];
+      if (!Array.isArray(formDataCopy.date)) {
+        formDataCopy.date = [];
       }
 
-      if (!formDataCopy.day.includes(value)) {
-        formDataCopy.day.push(value);
+      if (!formDataCopy.date.includes(value)) {
+        formDataCopy.date.push(parseInt(value));
       } else {
-        formDataCopy.day = formDataCopy.day.filter((day) => day !== value);
+        formDataCopy.date = formDataCopy.date.filter(
+          (day) => day !== parseInt(value)
+        );
       }
+    } else if (name === "day" || name === "month") {
+      formDataCopy.date[name] = parseInt(value);
     } else {
       formDataCopy[name] = value;
     }
@@ -51,22 +53,21 @@ class CreateTodoModal extends React.Component {
 
   handleClose() {
     this.props.onClose();
-    this.setState({ show: false });
   }
 
   handleSave() {
-    this.props.onSave(this.state.formData);
     this.handleClose();
+    this.props.onSave(this.state.formData);
   }
 
-  isNameBlank() {
+  isTitleBlank() {
     this.setState({
-      nameIsBlank: this.state.formData.name === "" ? true : false,
+      titleIsBlank: this.state.formData.title === "",
     });
   }
 
   render() {
-    const typesOptions = {
+    const typeOptions = {
       weekly: <WeeklyOption />,
       monthly: <MonthlyOption />,
       yearly: <YearlyOptions />,
@@ -93,12 +94,12 @@ class CreateTodoModal extends React.Component {
               <Form.Label>Name</Form.Label>
               <Form.Control
                 className="mt-1"
-                name="name"
-                isInvalid={this.state.nameIsBlank}
-                onBlur={this.isNameBlank}
+                name="title"
+                isInvalid={this.state.titleIsBlank}
+                onBlur={this.isTitleBlank}
               />
               <Form.Text className="text-danger">
-                {this.state.nameIsBlank ? "A name is required" : ""}
+                {this.state.titleIsBlank ? "A name is required" : ""}
               </Form.Text>
             </Form.Group>
             <Form.Group controlId="newTodoContext">
@@ -117,7 +118,7 @@ class CreateTodoModal extends React.Component {
                 <option value="someday">Someday</option>
               </Form.Control>
             </Form.Group>
-            {typesOptions[this.state.formData.type] || ""}
+            {typeOptions[this.state.formData.type] || ""}
             <Form.Group controlId="newTodoDescription">
               <Form.Label>Description</Form.Label>
               <Form.Control
@@ -135,7 +136,7 @@ class CreateTodoModal extends React.Component {
           </Button>
           <Button
             variant="primary"
-            disabled={this.state.formData.name === ""}
+            disabled={this.state.formData.title === ""}
             onClick={this.handleSave}
           >
             Save
