@@ -15,6 +15,7 @@ class App extends React.Component {
       currentContext: "general",
     };
     this.deleteTodo = this.deleteTodo.bind(this);
+    this.restoreTodo = this.restoreTodo.bind(this);
     this.concludeTodo = this.concludeTodo.bind(this);
     this.addTodo = this.addTodo.bind(this);
     this.setCurrentContext = this.setCurrentContext.bind(this);
@@ -25,6 +26,15 @@ class App extends React.Component {
     this.setState({
       data: this.state.data.map((todo) => {
         if (todo.title === todoTitle) todo.status = "deleted";
+        return todo;
+      }),
+    });
+  }
+
+  restoreTodo(todoTitle) {
+    this.setState({
+      data: this.state.data.map((todo) => {
+        if (todo.title === todoTitle) todo.status = "pending";
         return todo;
       }),
     });
@@ -132,6 +142,7 @@ class App extends React.Component {
             data={todo}
             key={todo.title + new Date().getMilliseconds()}
             onDelete={this.deleteTodo}
+            onRestore={this.restoreTodo}
             onConclude={this.concludeTodo}
           />
         );

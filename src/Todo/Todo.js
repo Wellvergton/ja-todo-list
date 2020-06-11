@@ -13,6 +13,7 @@ class Todo extends React.Component {
     this.showCardBody = false;
     this.cardBody = React.createRef();
     this.delete = this.delete.bind(this);
+    this.restore = this.restore.bind(this);
     this.conclude = this.conclude.bind(this);
     this.hideTodoBody = this.hideTodoBody.bind(this);
   }
@@ -48,6 +49,11 @@ class Todo extends React.Component {
     this.props.onDelete(this.props.data.title);
   }
 
+  async restore() {
+    await this.fadeOutTodo();
+    this.props.onRestore(this.props.data.title);
+  }
+
   async conclude() {
     await this.fadeOutTodo();
     this.props.onConclude(this.props.data.title);
@@ -72,6 +78,7 @@ class Todo extends React.Component {
             <Main
               title={this.props.data.title}
               status={this.props.data.status}
+              onClickInRestore={this.restore}
               onClickInDelete={this.delete}
               onClickInCheck={this.conclude}
             />

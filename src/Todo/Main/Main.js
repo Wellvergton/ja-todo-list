@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Octicon, { Check, Trashcan } from "@primer/octicons-react";
+import Octicon, { Check, Sync, Trashcan } from "@primer/octicons-react";
 import CheckButton from "./CheckButton/CheckButton";
 
 function Main(props) {
@@ -13,10 +13,7 @@ function Main(props) {
       <Container>
         <Row className="align-items-center">
           <Col className="px-0 d-flex justify-content-center" xs={1}>
-            <CheckButton
-              status={props.status}
-              onClick={props.onClickInCheck}
-            >
+            <CheckButton status={props.status} onClick={props.onClickInCheck}>
               <Octicon icon={Check} />
             </CheckButton>
           </Col>
@@ -30,8 +27,16 @@ function Main(props) {
             </p>
           </Col>
           <Col className="px-0 d-flex justify-content-center" xs={1}>
-            <Button size="sm" variant="light" onClick={props.onClickInDelete}>
-              <Octicon icon={Trashcan} />
+            <Button
+              size="sm"
+              variant="light"
+              onClick={
+                props.status !== "deleted"
+                  ? props.onClickInDelete
+                  : props.onClickInRestore
+              }
+            >
+              <Octicon icon={props.status !== "deleted" ? Trashcan : Sync} />
             </Button>
           </Col>
         </Row>
