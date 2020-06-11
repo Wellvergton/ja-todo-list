@@ -122,7 +122,10 @@ class App extends React.Component {
     };
 
     for (let todo of this.state.data) {
-      if (todo.context === this.state.currentContext) {
+      if (
+        todo.context === this.state.currentContext ||
+        todo.status === "deleted"
+      ) {
         todo = setProperStatus(todo);
         todos[todo.status].push(
           <Todo
@@ -161,7 +164,9 @@ class App extends React.Component {
           changeContext={this.setCurrentContext}
           onCreateContext={this.addContext}
         />
-        <main>{sections}</main>
+        <main>
+          {this.state.currentContext === "deleted" ? todos.deleted : sections}
+        </main>
       </div>
     );
   }
