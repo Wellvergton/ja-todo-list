@@ -10,8 +10,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
-      contexts: ["general", "deleted"],
+      data: data,
+      contexts: ["general", "deleted", "test"],
       currentContext: "general",
     };
     this.deleteTodo = this.deleteTodo.bind(this);
@@ -107,8 +107,8 @@ class App extends React.Component {
     this.setState({ data: todos });
   }
 
-  setCurrentContext() {
-    console.log("setCurrentContext");
+  setCurrentContext(event) {
+    this.setState({ currentContext: event.target.innerHTML });
   }
 
   render() {
@@ -122,29 +122,31 @@ class App extends React.Component {
     };
 
     for (let todo of this.state.data) {
-      todo = setProperStatus(todo);
-      todos[todo.status].push(
-        <Todo
-          data={todo}
-          key={todo.title + new Date().getMilliseconds()}
-          onDelete={this.deleteTodo}
-          onConclude={this.concludeTodo}
-        />
-      );
+      if (todo.context === this.state.currentContext) {
+        todo = setProperStatus(todo);
+        todos[todo.status].push(
+          <Todo
+            data={todo}
+            key={todo.title + new Date().getMilliseconds()}
+            onDelete={this.deleteTodo}
+            onConclude={this.concludeTodo}
+          />
+        );
+      }
     }
 
     let sections = [];
 
-    for (let todoType in todos) {
-      if (todoType !== "deleted") {
+    for (let todoStatus in todos) {
+      if (todoStatus !== "deleted") {
         sections.push(
-          <section key={todoType}>
-            {todos[todoType].length > 0 && (
+          <section key={todoStatus}>
+            {todos[todoStatus].length > 0 && (
               <p className="h3 font-weight-bold">
-                {todoType.replace(todoType[0], todoType[0].toUpperCase())}
+                {todoStatus.replace(todoStatus[0], todoStatus[0].toUpperCase())}
               </p>
             )}
-            {todos[todoType]}
+            {todos[todoStatus]}
           </section>
         );
       }
