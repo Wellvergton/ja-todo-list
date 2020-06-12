@@ -5,9 +5,6 @@ function CheckButton(props) {
   function handleClick(event) {
     if (props.status !== "deleted") {
       props.onClick();
-      if (props.status !== "delayed") {
-        event.target.classList.toggle("disabled");
-      }
     }
   }
 
