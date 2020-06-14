@@ -64,7 +64,7 @@ class CreateTodoModal extends React.Component {
     }
 
     if (name === "weekly") {
-      if (!formDataCopy.date.includes(value)) {
+      if (!formDataCopy.date.includes(parseInt(value))) {
         formDataCopy.date.push(parseInt(value));
       } else {
         formDataCopy.date = formDataCopy.date.filter(
