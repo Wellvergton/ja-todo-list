@@ -1,20 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
-function YearlyOptions(props) {
+function YearlyOptions() {
   let days = [];
   let months = [];
+  let [selectedMonth, setSelectedMonth] = useState(0);
+  let amountOfDays;
 
-  for (let day = 1; day < 32; day++) {
+  if ([0, 2, 4, 6, 7, 9, 11].includes(selectedMonth)) {
+    amountOfDays = 31;
+  } else if ([3, 5, 8, 10].includes(selectedMonth)) {
+    amountOfDays = 30;
+  } else {
+    amountOfDays = 29;
+  }
+
+  for (let day = 1; day < amountOfDays + 1; day++) {
     days.push(
-      <option value={day} key={day}>{day}</option>
+      <option value={day} key={day}>
+        {day}
+      </option>
     );
   }
   for (let month = 0; month < 12; month++) {
     months.push(
-      <option value={month} key={month}>{month + 1}</option>
+      <option value={month} key={month} onClick={() => setSelectedMonth(month)}>
+        {month + 1}
+      </option>
     );
   }
 
