@@ -74,7 +74,6 @@ class App extends React.Component {
         data.status = "today";
       } else {
         data.status = "pending";
-        console.log("A");
       }
 
       return data;
