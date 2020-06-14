@@ -76,6 +76,7 @@ class App extends React.Component {
         data.status = "pending";
       }
 
+      data.date = data.date.sort();
       return data;
     },
     monthly(data) {
