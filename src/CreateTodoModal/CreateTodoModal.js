@@ -18,37 +18,13 @@ class CreateTodoModal extends React.Component {
         date: {},
       },
       titleIsBlank: false,
+      formIsInvalid: true,
     };
     this.handleChange = this.handleChange.bind(this);
     this.isTitleBlank = this.isTitleBlank.bind(this);
+    this.isFormInvalid = this.isFormInvalid.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSave = this.handleSave.bind(this);
-  }
-
-  handleChange(event) {
-    const name = event.target.name;
-    const value = event.target.value;
-    const formDataCopy = this.state.formData;
-
-    if (name === "weekly") {
-      if (!Array.isArray(formDataCopy.date)) {
-        formDataCopy.date = [];
-      }
-
-      if (!formDataCopy.date.includes(value)) {
-        formDataCopy.date.push(parseInt(value));
-      } else {
-        formDataCopy.date = formDataCopy.date.filter(
-          (day) => day !== parseInt(value)
-        );
-      }
-    } else if (name === "day" || name === "month") {
-      formDataCopy.date[name] = parseInt(value);
-    } else {
-      formDataCopy[name] = value;
-    }
-
-    this.setState({ formData: formDataCopy });
   }
 
   handleClose() {
@@ -66,9 +42,49 @@ class CreateTodoModal extends React.Component {
     });
   }
 
+  isFormInvalid() {
+    const type = this.state.formData.type;
+    const date = this.state.formData.date;
+    const title = this.state.formData.title;
+
+    if ((type === "weekly" && date.length === 0) || title === "") {
+      this.setState({ formIsInvalid: true });
+    } else {
+      this.setState({ formIsInvalid: false });
+    }
+  }
+
+  handleChange(event) {
+    const name = event.target.name;
+    const value = event.target.value;
+    const formDataCopy = this.state.formData;
+
+    if (value === "weekly" && !Array.isArray(formDataCopy.date)) {
+      formDataCopy.date = [];
+    }
+
+    if (name === "weekly") {
+      if (!formDataCopy.date.includes(value)) {
+        formDataCopy.date.push(parseInt(value));
+      } else {
+        formDataCopy.date = formDataCopy.date.filter(
+          (day) => day !== parseInt(value)
+        );
+      }
+    } else if (name === "day" || name === "month") {
+      formDataCopy.date[name] = parseInt(value);
+    } else {
+      formDataCopy[name] = value;
+    }
+
+    this.setState({ formData: formDataCopy });
+    this.isTitleBlank();
+    this.isFormInvalid();
+  }
+
   render() {
     const typeOptions = {
-      weekly: <WeeklyOption />,
+      weekly: <WeeklyOption selectedDays={this.state.formData.date} />,
       monthly: <MonthlyOption />,
       yearly: <YearlyOptions />,
     };
@@ -96,7 +112,6 @@ class CreateTodoModal extends React.Component {
                 className="mt-1"
                 name="title"
                 isInvalid={this.state.titleIsBlank}
-                onBlur={this.isTitleBlank}
               />
               <Form.Text className="text-danger">
                 {this.state.titleIsBlank ? "A name is required" : ""}
@@ -136,7 +151,7 @@ class CreateTodoModal extends React.Component {
           </Button>
           <Button
             variant="primary"
-            disabled={this.state.formData.title === ""}
+            disabled={this.state.formIsInvalid}
             onClick={this.handleSave}
           >
             Save

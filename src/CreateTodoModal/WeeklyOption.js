@@ -1,4 +1,5 @@
 import React from "react";
+import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
@@ -29,17 +30,25 @@ function WeeklyOption(props) {
   }
 
   return (
-    <Form.Group>
-      <Form.Label className="d-block">Day(s)</Form.Label>
-      <ToggleButtonGroup
-        type="checkbox"
-        name="weekly"
-        className="mt-1"
-        vertical
-      >
-        {options}
-      </ToggleButtonGroup>
-    </Form.Group>
+    <>
+      <Form.Group>
+        <Form.Label className="d-block">Day(s)</Form.Label>
+        <ToggleButtonGroup
+          type="checkbox"
+          name="weekly"
+          className="mt-1"
+          vertical
+        >
+          {options}
+        </ToggleButtonGroup>
+      </Form.Group>
+      {(!Array.isArray(props.selectedDays) ||
+        props.selectedDays.length === 0) && (
+        <Alert variant="warning">
+          Select at least one day
+        </Alert>
+      )}
+    </>
   );
 }
 
