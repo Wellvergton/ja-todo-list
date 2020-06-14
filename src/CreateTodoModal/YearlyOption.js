@@ -4,6 +4,20 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
 function YearlyOptions() {
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   let days = [];
   let months = [];
   let [selectedMonth, setSelectedMonth] = useState(0);
@@ -27,7 +41,7 @@ function YearlyOptions() {
   for (let month = 0; month < 12; month++) {
     months.push(
       <option value={month} key={month} onClick={() => setSelectedMonth(month)}>
-        {month + 1}
+        {monthNames[month]}
       </option>
     );
   }
