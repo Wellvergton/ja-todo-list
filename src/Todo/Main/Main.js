@@ -13,7 +13,7 @@ function Main(props) {
       <Container>
         <Row className="align-items-center">
           <Col className="px-0 d-flex justify-content-center" xs={1}>
-            <CheckButton status={props.status} onClick={props.onClickInCheck}>
+            <CheckButton status={props.status} onClick={props.action}>
               <Octicon icon={Check} />
             </CheckButton>
           </Col>
@@ -32,8 +32,8 @@ function Main(props) {
               variant="light"
               onClick={
                 props.status !== "deleted"
-                  ? props.onClickInDelete
-                  : props.onClickInRestore
+                  ? () => props.action("delete")
+                  : () => props.action("restore")
               }
             >
               <Octicon icon={props.status !== "deleted" ? Trashcan : Sync} />

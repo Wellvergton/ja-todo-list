@@ -141,9 +141,9 @@ class App extends React.Component {
           <Todo
             data={todo}
             key={todo.title + new Date().getMilliseconds()}
-            onDelete={this.deleteTodo}
-            onRestore={this.restoreTodo}
-            onConclude={this.concludeTodo}
+            delete={this.deleteTodo}
+            restore={this.restoreTodo}
+            conclude={this.concludeTodo}
           />
         );
       }

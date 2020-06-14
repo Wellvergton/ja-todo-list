@@ -12,10 +12,8 @@ class Todo extends React.Component {
     this.todo = React.createRef();
     this.showCardBody = false;
     this.cardBody = React.createRef();
-    this.delete = this.delete.bind(this);
-    this.restore = this.restore.bind(this);
-    this.conclude = this.conclude.bind(this);
     this.hideTodoBody = this.hideTodoBody.bind(this);
+    this.fadeAndMakeAnAction = this.fadeAndMakeAnAction.bind(this);
   }
 
   hideTodoBody() {
@@ -44,19 +42,9 @@ class Todo extends React.Component {
     });
   }
 
-  async delete() {
+  async fadeAndMakeAnAction(action) {
     await this.fadeOutTodo();
-    this.props.onDelete(this.props.data.title);
-  }
-
-  async restore() {
-    await this.fadeOutTodo();
-    this.props.onRestore(this.props.data.title);
-  }
-
-  async conclude() {
-    await this.fadeOutTodo();
-    this.props.onConclude(this.props.data.title);
+    this.props[action](this.props.data.title);
   }
 
   render() {
@@ -78,9 +66,7 @@ class Todo extends React.Component {
             <Main
               title={this.props.data.title}
               status={this.props.data.status}
-              onClickInRestore={this.restore}
-              onClickInDelete={this.delete}
-              onClickInCheck={this.conclude}
+              action={this.fadeAndMakeAnAction}
             />
           </Card.Header>
           <Card.Body className="py-0" ref={this.cardBody}>

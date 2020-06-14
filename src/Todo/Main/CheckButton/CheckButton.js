@@ -2,9 +2,9 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 
 function CheckButton(props) {
-  function handleClick(event) {
+  function handleClick() {
     if (props.status !== "deleted") {
-      props.onClick();
+      props.onClick("conclude");
     }
   }
 
