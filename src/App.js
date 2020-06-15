@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.scss";
 
+import CreateContextModal from "./CreateContextModal/CreateContextModal";
+import CreateTodoModal from "./CreateTodoModal/CreateTodoModal";
 import Todo from "./Todo/Todo";
 import ToolBar from "./ToolBar/ToolBar";
 import data from "./mock-todos";
@@ -13,6 +15,8 @@ class App extends React.Component {
       data: data,
       contexts: ["general", "deleted", "test"],
       currentContext: "general",
+      showCreateContextModal: false,
+      showCreateTodoModal: false,
     };
     this.deleteTodo = this.deleteTodo.bind(this);
     this.restoreTodo = this.restoreTodo.bind(this);
@@ -20,6 +24,8 @@ class App extends React.Component {
     this.addTodo = this.addTodo.bind(this);
     this.setCurrentContext = this.setCurrentContext.bind(this);
     this.addContext = this.addContext.bind(this);
+    this.showHideContextModal = this.showHideContextModal.bind(this);
+    this.showHideTodoModal = this.showHideTodoModal.bind(this);
   }
 
   deleteTodo(todoTitle) {
@@ -121,6 +127,18 @@ class App extends React.Component {
     this.setState({ currentContext: event.target.innerHTML });
   }
 
+  showHideContextModal() {
+    this.setState({
+      showCreateContextModal: !this.state.showCreateContextModal,
+    });
+  }
+
+  showHideTodoModal() {
+    this.setState({
+      showCreateTodoModal: !this.state.showCreateTodoModal,
+    });
+  }
+
   render() {
     let todos = {
       delayed: [],
@@ -168,12 +186,30 @@ class App extends React.Component {
 
     return (
       <div className="App">
+      {this.state.showCreateContextModal && (
+        <CreateContextModal
+          show={this.state.showCreateContextModal}
+          contexts={this.state.contexts}
+          onClose={this.showHideContextModal}
+          onSave={this.addContext}
+        />
+      )}
+      {this.state.showCreateTodoModal && (
+        <CreateTodoModal
+          show={this.state.showCreateTodoModal}
+          contexts={this.state.contexts}
+          onClose={this.showHideTodoModal}
+          onSave={this.addTodo}
+        />
+      )}
         <ToolBar
           contexts={this.state.contexts}
           contextName={this.state.currentContext}
           addTodo={this.addTodo}
           changeContext={this.setCurrentContext}
           onCreateContext={this.addContext}
+          showHideTodoModal={this.showHideTodoModal}
+          showHideContextModal={this.showHideContextModal}
         />
         <main>
           {this.state.currentContext === "deleted" ? todos.deleted : sections}
