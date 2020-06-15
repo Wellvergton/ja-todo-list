@@ -1,7 +1,6 @@
 import React from "react";
 
 function Yearly(props) {
-  console.log(props.date);
   let date = new Date();
   const baseYear =
     props.date.month > date.getMonth()
