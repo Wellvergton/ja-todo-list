@@ -43,7 +43,7 @@ class ToolBar extends React.Component {
         return (
           <Nav.Item
             className={`my-2 text-capitalize ${
-              context === this.props.contextName ? "d-none" : ""
+              context === this.props.contextName ? "text-info" : ""
             }`}
             onClick={this.props.changeContext}
             key={context + index}
@@ -71,7 +71,7 @@ class ToolBar extends React.Component {
           {contexts}
           <Nav.Item
             className={`my-2 text-capitalize ${
-              this.props.contextName === "deleted" ? "d-none" : ""
+              this.props.contextName === "deleted" ? "text-info" : ""
             }`}
             onClick={this.props.changeContext}
           >
