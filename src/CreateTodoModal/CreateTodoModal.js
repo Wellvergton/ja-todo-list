@@ -21,6 +21,7 @@ class CreateTodoModal extends React.Component {
       formIsInvalid: true,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.setDateFormat = this.setDateFormat.bind(this);
     this.isTitleBlank = this.isTitleBlank.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -54,13 +55,34 @@ class CreateTodoModal extends React.Component {
     }
   }
 
+  setDateFormat(type) {
+    let format;
+
+    switch (type) {
+      case "weekly":
+        format = [];
+        break;
+      case "monthly":
+        format = { day: 1};
+        break;
+      case "yearly":
+        format = { day: 1, month: 0 };
+        break;
+      default:
+        format = {};
+        break;
+    }
+
+    return format;
+  }
+
   handleChange(event) {
     const name = event.target.name;
     const value = event.target.value;
     const formDataCopy = this.state.formData;
 
-    if (value === "weekly" && !Array.isArray(formDataCopy.date)) {
-      formDataCopy.date = [];
+    if (name === "type") {
+      formDataCopy.date = this.setDateFormat(value);
     }
 
     if (name === "weekly") {
