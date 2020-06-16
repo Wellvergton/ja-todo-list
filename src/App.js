@@ -29,28 +29,32 @@ class App extends React.Component {
     this.showHideTodoModal = this.showHideTodoModal.bind(this);
   }
 
-  deleteTodo(todoTitle) {
+  deleteTodo(title, context) {
     this.setState({
       todos: this.state.todos.map((todo) => {
-        if (todo.title === todoTitle) todo.status = "deleted";
+        if (todo.title === title && todo.context === context) {
+          todo.status = "deleted";
+        }
         return todo;
       }),
     });
   }
 
-  restoreTodo(todoTitle) {
+  restoreTodo(title, context) {
     this.setState({
       todos: this.state.todos.map((todo) => {
-        if (todo.title === todoTitle) todo.status = "pending";
+        if (todo.title === title && todo.context === context) {
+          todo.status = "pending";
+        }
         return todo;
       }),
     });
   }
 
-  concludeTodo(todoTitle) {
+  concludeTodo(title, context) {
     this.setState({
       todos: this.state.todos.map((todo) => {
-        if (todo.title === todoTitle) {
+        if (todo.title === title && todo.context === context) {
           if (todo.status !== "concluded") {
             todo.status = "concluded";
           } else {
