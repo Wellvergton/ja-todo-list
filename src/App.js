@@ -5,6 +5,7 @@ import CreateContextModal from "./CreateContextModal/CreateContextModal";
 import CreateTodoModal from "./CreateTodoModal/CreateTodoModal";
 import Todo from "./Todo/Todo";
 import ToolBar from "./ToolBar/ToolBar";
+import DeletedTodosSection from "./DeletedTodosSection/DeletedTodosSection";
 import data from "./mock-todos";
 import setProperStatus from "./setProperStatus";
 import setFirstDate from "./setFirstDate";
@@ -143,23 +144,23 @@ class App extends React.Component {
 
     return (
       <div className="App">
-      {this.state.showCreateContextModal && (
-        <CreateContextModal
-          show={this.state.showCreateContextModal}
-          contexts={this.state.contexts}
-          onClose={this.showHideContextModal}
-          onSave={this.addContext}
-        />
-      )}
-      {this.state.showCreateTodoModal && (
-        <CreateTodoModal
-          show={this.state.showCreateTodoModal}
-          contexts={this.state.contexts}
-          todos={this.state.todos}
-          onClose={this.showHideTodoModal}
-          onSave={this.addTodo}
-        />
-      )}
+        {this.state.showCreateContextModal && (
+          <CreateContextModal
+            show={this.state.showCreateContextModal}
+            contexts={this.state.contexts}
+            onClose={this.showHideContextModal}
+            onSave={this.addContext}
+          />
+        )}
+        {this.state.showCreateTodoModal && (
+          <CreateTodoModal
+            show={this.state.showCreateTodoModal}
+            contexts={this.state.contexts}
+            todos={this.state.todos}
+            onClose={this.showHideTodoModal}
+            onSave={this.addTodo}
+          />
+        )}
         <ToolBar
           contexts={this.state.contexts}
           contextName={this.state.currentContext}
@@ -170,7 +171,14 @@ class App extends React.Component {
           showHideContextModal={this.showHideContextModal}
         />
         <main>
-          {this.state.currentContext === "deleted" ? todos.deleted : sections}
+          {this.state.currentContext === "deleted" ? (
+            <DeletedTodosSection
+              todos={this.state.todos}
+              restoreTodo={this.restoreTodo}
+            />
+          ) : (
+            sections
+          )}
         </main>
       </div>
     );
