@@ -13,7 +13,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: data,
+      todos: data,
       contexts: ["general", "deleted", "test"],
       currentContext: "general",
       showCreateContextModal: false,
@@ -31,7 +31,7 @@ class App extends React.Component {
 
   deleteTodo(todoTitle) {
     this.setState({
-      data: this.state.data.map((todo) => {
+      data: this.state.todos.map((todo) => {
         if (todo.title === todoTitle) todo.status = "deleted";
         return todo;
       }),
@@ -40,7 +40,7 @@ class App extends React.Component {
 
   restoreTodo(todoTitle) {
     this.setState({
-      data: this.state.data.map((todo) => {
+      data: this.state.todos.map((todo) => {
         if (todo.title === todoTitle) todo.status = "pending";
         return todo;
       }),
@@ -49,7 +49,7 @@ class App extends React.Component {
 
   concludeTodo(todoTitle) {
     this.setState({
-      data: this.state.data.map((todo) => {
+      data: this.state.todos.map((todo) => {
         if (todo.title === todoTitle) {
           if (todo.status !== "concluded") {
             todo.status = "concluded";
@@ -70,7 +70,7 @@ class App extends React.Component {
   }
 
   addTodo(data) {
-    const todos = this.state.data;
+    const todos = this.state.todos;
     data = setFirstDate(data);
     todos.push(data);
     this.setState({ data: todos });
@@ -102,7 +102,7 @@ class App extends React.Component {
       deleted: [],
     };
 
-    for (let todo of this.state.data) {
+    for (let todo of this.state.todos) {
       if (
         todo.context === this.state.currentContext ||
         todo.status === "deleted"
@@ -151,7 +151,7 @@ class App extends React.Component {
         <CreateTodoModal
           show={this.state.showCreateTodoModal}
           contexts={this.state.contexts}
-          todos={this.state.data}
+          todos={this.state.todos}
           onClose={this.showHideTodoModal}
           onSave={this.addTodo}
         />
