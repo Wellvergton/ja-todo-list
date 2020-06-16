@@ -13,7 +13,7 @@ function CheckButton(props) {
       size="sm"
       variant="light"
       className={`text-dark ${
-        props.status === "concluded" || props.status === "deleted"
+        props.status === "deleted"
           ? "disabled"
           : ""
       }`}
