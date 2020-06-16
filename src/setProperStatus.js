@@ -36,21 +36,29 @@ const functions = {
   },
 
   weekly(data) {
-    if (data.date.includes(currentDayOfTheWeek) && data.status !== "concluded") {
+    if (
+      data.date.includes(currentDayOfTheWeek) &&
+      data.status !== "concluded"
+    ) {
       data.status = "today";
       return data;
     }
 
     if (
-      (!data.date.includes(currentDayOfTheWeek) && data.status === "concluded") ||
-      data.status === "pending"
+      (!data.date.includes(currentDayOfTheWeek) &&
+        data.status === "concluded") ||
+      data.status === "pending" ||
+      data.status === undefined
     ) {
-      data.status = "pending"
+      data.status = "pending";
       return data;
     }
 
-    if (data.date.includes(currentDayOfTheWeek) && data.status === "concluded") {
-      data.status = "concluded"
+    if (
+      data.date.includes(currentDayOfTheWeek) &&
+      data.status === "concluded"
+    ) {
+      data.status = "concluded";
       return data;
     }
 
@@ -59,7 +67,7 @@ const functions = {
       data.status !== "concluded" &&
       data.status !== "pending"
     ) {
-      data.status = "delayed"
+      data.status = "delayed";
       return data;
     }
   },
@@ -140,7 +148,7 @@ const functions = {
     }
 
     return data;
-  }
+  },
 };
 
 function setProperStatus(data) {
