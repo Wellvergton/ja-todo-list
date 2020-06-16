@@ -31,7 +31,7 @@ class App extends React.Component {
 
   deleteTodo(todoTitle) {
     this.setState({
-      data: this.state.todos.map((todo) => {
+      todos: this.state.todos.map((todo) => {
         if (todo.title === todoTitle) todo.status = "deleted";
         return todo;
       }),
@@ -40,7 +40,7 @@ class App extends React.Component {
 
   restoreTodo(todoTitle) {
     this.setState({
-      data: this.state.todos.map((todo) => {
+      todos: this.state.todos.map((todo) => {
         if (todo.title === todoTitle) todo.status = "pending";
         return todo;
       }),
@@ -49,7 +49,7 @@ class App extends React.Component {
 
   concludeTodo(todoTitle) {
     this.setState({
-      data: this.state.todos.map((todo) => {
+      todos: this.state.todos.map((todo) => {
         if (todo.title === todoTitle) {
           if (todo.status !== "concluded") {
             todo.status = "concluded";
@@ -73,7 +73,7 @@ class App extends React.Component {
     const todos = this.state.todos;
     data = setFirstDate(data);
     todos.push(data);
-    this.setState({ data: todos });
+    this.setState({ todos: todos });
   }
 
   setCurrentContext(event) {
