@@ -131,8 +131,8 @@ class App extends React.Component {
         sections.push(
           <section key={todoStatus}>
             {todos[todoStatus].length > 0 && (
-              <p className="h3 font-weight-bold">
-                {todoStatus.replace(todoStatus[0], todoStatus[0].toUpperCase())}
+              <p className="h3 font-weight-bold text-capitalize">
+                {todoStatus}
               </p>
             )}
             {todos[todoStatus]}
