@@ -18,6 +18,7 @@ class CreateTodoModal extends React.Component {
         date: {},
       },
       titleIsBlank: false,
+      todoIsADuplicate: false,
       formIsInvalid: true,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -26,6 +27,7 @@ class CreateTodoModal extends React.Component {
     this.isFormInvalid = this.isFormInvalid.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.isTodoDuplicated = this.isTodoDuplicated.bind(this);
   }
 
   handleClose() {
@@ -41,6 +43,15 @@ class CreateTodoModal extends React.Component {
     this.setState({
       titleIsBlank: this.state.formData.title === "",
     });
+  }
+
+  isTodoDuplicated() {
+    const title = this.state.formData.title;
+    const context = this.state.formData.context;
+    const isDuplicate = this.props.todos.some((todo) => {
+      return todo.title === title && todo.context === context;
+    });
+    this.setState({ todoIsADuplicate: isDuplicate });
   }
 
   isFormInvalid() {
@@ -63,7 +74,7 @@ class CreateTodoModal extends React.Component {
         format = [];
         break;
       case "monthly":
-        format = { day: 1};
+        format = { day: 1 };
         break;
       case "yearly":
         format = { day: 1, month: 0 };
@@ -102,6 +113,7 @@ class CreateTodoModal extends React.Component {
     this.setState({ formData: formDataCopy });
     this.isTitleBlank();
     this.isFormInvalid();
+    this.isTodoDuplicated();
   }
 
   render() {
@@ -144,6 +156,11 @@ class CreateTodoModal extends React.Component {
               <Form.Control as="select" className="mt-1" name="context" custom>
                 {contexts}
               </Form.Control>
+              <Form.Text className="text-danger">
+                {this.state.todoIsADuplicate
+                  ? "There is already a task with the same name in the same context"
+                  : ""}
+              </Form.Text>
             </Form.Group>
             <Form.Group controlId="newTodoType">
               <Form.Label>Type</Form.Label>
@@ -173,7 +190,7 @@ class CreateTodoModal extends React.Component {
           </Button>
           <Button
             variant="primary"
-            disabled={this.state.formIsInvalid}
+            disabled={this.state.formIsInvalid || this.state.todoIsADuplicate}
             onClick={this.handleSave}
           >
             Save

@@ -198,6 +198,7 @@ class App extends React.Component {
         <CreateTodoModal
           show={this.state.showCreateTodoModal}
           contexts={this.state.contexts}
+          todos={this.state.data}
           onClose={this.showHideTodoModal}
           onSave={this.addTodo}
         />
