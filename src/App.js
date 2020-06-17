@@ -20,6 +20,8 @@ class App extends React.Component {
       showCreateContextModal: false,
       showCreateTodoModal: false,
     };
+    this.toolBar = React.createRef();
+    this.wrapper = React.createRef();
     this.deleteTodo = this.deleteTodo.bind(this);
     this.restoreTodo = this.restoreTodo.bind(this);
     this.concludeTodo = this.concludeTodo.bind(this);
@@ -28,6 +30,7 @@ class App extends React.Component {
     this.addContext = this.addContext.bind(this);
     this.showHideContextModal = this.showHideContextModal.bind(this);
     this.showHideTodoModal = this.showHideTodoModal.bind(this);
+    this.setPaddingTop = this.setPaddingTop.bind(this);
   }
 
   deleteTodo(title, context) {
@@ -97,6 +100,15 @@ class App extends React.Component {
     });
   }
 
+  setPaddingTop(value) {
+    this.wrapper.current.style.paddingTop = `${value}px`;
+  }
+
+  componentDidMount() {
+    const toolBarHeight = this.toolBar.current.navBar.current.clientHeight;
+    this.wrapper.current.style.paddingTop = `${toolBarHeight}px`;
+  }
+
   render() {
     let todos = {
       delayed: [],
@@ -143,7 +155,7 @@ class App extends React.Component {
     }
 
     return (
-      <div className="App">
+      <div className="App" ref={this.wrapper}>
         {this.state.showCreateContextModal && (
           <CreateContextModal
             show={this.state.showCreateContextModal}
@@ -162,6 +174,7 @@ class App extends React.Component {
           />
         )}
         <ToolBar
+          ref={this.toolBar}
           contexts={this.state.contexts}
           contextName={this.state.currentContext}
           addTodo={this.addTodo}
@@ -169,6 +182,7 @@ class App extends React.Component {
           onCreateContext={this.addContext}
           showHideTodoModal={this.showHideTodoModal}
           showHideContextModal={this.showHideContextModal}
+          onShowMenu={this.setPaddingTop}
         />
         <main>
           {this.state.currentContext === "deleted" ? (

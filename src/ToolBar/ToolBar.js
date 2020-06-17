@@ -11,6 +11,7 @@ class ToolBar extends React.Component {
     this.state = {
       menuIsVisible: false,
     };
+    this.navBar = React.createRef();
     this.nav = React.createRef();
     this.showHideMenu = this.showHideMenu.bind(this);
     this.setNavStyle = this.setNavStyle.bind(this);
@@ -33,6 +34,7 @@ class ToolBar extends React.Component {
 
   componentDidUpdate() {
     this.setNavStyle();
+    this.props.onShowMenu(this.navBar.current.clientHeight);
   }
 
   render() {
@@ -43,7 +45,7 @@ class ToolBar extends React.Component {
         return (
           <Nav.Item
             className={`my-2 text-capitalize ${
-              context === this.props.contextName ? "text-info" : ""
+              context === this.props.contextName ? "text-info" : "text-light"
             }`}
             onClick={this.props.changeContext}
             key={context + index}
@@ -54,24 +56,24 @@ class ToolBar extends React.Component {
       });
 
     return (
-      <Navbar bg="light" expand="md">
-        <Button variant="light" onClick={this.showHideMenu}>
+      <Navbar bg="dark" expand="md" ref={this.navBar}>
+        <Button variant="dark" onClick={this.showHideMenu}>
           <Octicon
             icon={this.state.menuIsVisible ? X : ListUnordered}
             size="medium"
           />
         </Button>
-        <Navbar.Text className="text-capitalize text-body">
+        <Navbar.Text className="text-capitalize text-light">
           {this.props.contextName}
         </Navbar.Text>
-        <Button variant="light" onClick={this.props.showHideTodoModal}>
+        <Button variant="dark" onClick={this.props.showHideTodoModal}>
           <Octicon icon={Plus} size="medium" />
         </Button>
         <Nav ref={this.nav} className="w-100">
           {contexts}
           <Nav.Item
             className={`my-2 text-capitalize ${
-              this.props.contextName === "deleted" ? "text-info" : ""
+              this.props.contextName === "deleted" ? "text-info" : "text-light"
             }`}
             onClick={this.props.changeContext}
           >
