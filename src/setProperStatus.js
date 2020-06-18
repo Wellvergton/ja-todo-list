@@ -5,139 +5,130 @@ const currentMonth = currentDate.getMonth();
 const currentYear = currentDate.getFullYear();
 const currentTime = new Date(currentYear, currentMonth, currentDay).getTime();
 
-const functions = {
+const types = {
   daily(data) {
-    const dataBasedDate = new Date(
-      currentYear,
-      currentMonth,
-      data.date.day
-    ).getTime();
+    const status = {
+      pending() {
+        data.date.day = currentDay;
+        data.status = "today";
+      },
 
-    if (dataBasedDate === currentTime && data.status !== "concluded") {
-      data.status = "today";
-      return data;
+      today() {
+        if (data.date.day < currentDay) {
+          data.status = "delayed";
+        }
+      },
+
+      concluded() {
+        if (data.date.day < currentDay) {
+          data.date.day = currentDay;
+          data.status = "today";
+        }
+      },
+    };
+
+    if (status[data.status]) {
+      status[data.status]();
     }
 
-    if (dataBasedDate < currentTime && data.status === "concluded") {
-      data.date.day = currentDay;
-      data.status = "today";
-      return data;
-    }
-
-    if (dataBasedDate === currentTime && data.status === "concluded") {
-      data.status = "concluded";
-      return data;
-    }
-
-    if (dataBasedDate < currentTime && data.status !== "concluded") {
-      data.status = "delayed";
-      return data;
-    }
+    return data;
   },
 
   weekly(data) {
-    if (
-      data.date.includes(currentDayOfTheWeek) &&
-      data.status !== "concluded"
-    ) {
-      data.status = "today";
-      return data;
+    const status = {
+      pending() {
+        if (data.date.includes(currentDayOfTheWeek)) {
+          data.status = "today";
+        }
+      },
+
+      today() {
+        if (!data.date.includes(currentDayOfTheWeek)) {
+          data.status = "delayed";
+        }
+      },
+
+      concluded() {
+        if (!data.date.includes(currentDayOfTheWeek)) {
+          data.status = "pending";
+        }
+      },
+    };
+
+    if (status[data.status]) {
+      status[data.status]();
     }
 
-    if (
-      (!data.date.includes(currentDayOfTheWeek) &&
-        data.status === "concluded") ||
-      data.status === "pending" ||
-      data.status === undefined
-    ) {
-      data.status = "pending";
-      return data;
-    }
-
-    if (
-      data.date.includes(currentDayOfTheWeek) &&
-      data.status === "concluded"
-    ) {
-      data.status = "concluded";
-      return data;
-    }
-
-    if (
-      !data.date.includes(currentDayOfTheWeek) &&
-      data.status !== "concluded" &&
-      data.status !== "pending"
-    ) {
-      data.status = "delayed";
-      return data;
-    }
+    return data;
   },
 
   monthly(data) {
-    const dataBasedDate = new Date(
+    const tomorrow = new Date();
+    tomorrow.setDate(currentDay + 1);
+
+    const status = {
+      pending() {
+        if (data.date.day === currentDay) {
+          data.status = "today";
+        } else if (
+          tomorrow.getMonth() > currentMonth &&
+          [29, 30, 31].includes(data.date.day)
+        ) {
+          data.status = "today";
+        }
+      },
+
+      today() {
+        if (data.date.day < currentDay) {
+          data.status = "delayed";
+        }
+      },
+
+      concluded() {
+        if (data.date.day < currentDay) {
+          data.status = "pending";
+        }
+      },
+    };
+
+    if (status[data.status]) {
+      status[data.status]();
+    }
+
+    return data;
+  },
+
+  yearly(data) {
+    const dataTime = new Date(
       currentYear,
       data.date.month,
       data.date.day
     ).getTime();
+    const status = {
+      pending() {
+        if (dataTime === currentTime) {
+          data.status = "today";
+        }
+      },
 
-    if (dataBasedDate === currentTime && data.status !== "concluded") {
-      data.status = "today";
-      return data;
+      today() {
+        if (dataTime < currentTime) {
+          data.status = "delayed";
+        }
+      },
+
+      concluded() {
+        if (dataTime < currentTime) {
+          data.status = "pending";
+        }
+      }
+    };
+
+    if (status[data.status]) {
+      status[data.status]();
     }
 
-    if (dataBasedDate < currentTime && data.status === "concluded") {
-      data.date.month = currentMonth + 1;
-      data.status = "pending";
-      return data;
-    }
-
-    if (dataBasedDate >= currentTime && data.status === "concluded") {
-      data.status = "concluded";
-      return data;
-    }
-
-    if (dataBasedDate > currentTime) {
-      data.status = "pending";
-      return data;
-    }
-
-    if (dataBasedDate < currentTime && data.status !== "concluded") {
-      data.status = "delayed";
-      return data;
-    }
-  },
-
-  yearly(data) {
-    const dataBasedDate = new Date(
-      data.date.year,
-      data.date.month,
-      data.date.day
-    ).getTime();
-
-    if (dataBasedDate === currentTime && data.status !== "concluded") {
-      data.status = "today";
-      return data;
-    }
-
-    if (dataBasedDate < currentTime && data.status === "concluded") {
-      data.date.year = currentYear + 1;
-      data.status = "pending";
-      return data;
-    }
-
-    if (dataBasedDate >= currentTime && data.status === "concluded") {
-      data.status = "concluded";
-      return data;
-    }
-
-    if (dataBasedDate > currentTime) {
-      data.status = "pending";
-      return data;
-    }
-
-    if (dataBasedDate < currentTime && data.status !== "concluded") {
-      data.status = "delayed";
-      return data;
-    }
+    return data;
   },
 
   someday(data) {
@@ -152,8 +143,8 @@ const functions = {
 };
 
 function setProperStatus(data) {
-  if (data.status !== "deleted" && functions[data.type]) {
-    return functions[data.type](data);
+  if (data.status !== "deleted" && types[data.type]) {
+    return types[data.type](data);
   }
 
   return data;
