@@ -8,7 +8,6 @@ import ToolBar from "./ToolBar/ToolBar";
 import DeletedTodosSection from "./DeletedTodosSection/DeletedTodosSection";
 import data from "./mock-todos";
 import setProperStatus from "./setProperStatus";
-import setFirstDate from "./setFirstDate";
 
 class App extends React.Component {
   constructor(props) {
@@ -79,7 +78,10 @@ class App extends React.Component {
 
   addTodo(data) {
     const todos = this.state.todos;
-    data = setFirstDate(data);
+    data.status = "pending";
+    if (data.type === "weekly") {
+      data.date = data.date.sort();
+    }
     todos.push(data);
     this.setState({ todos: todos });
   }
