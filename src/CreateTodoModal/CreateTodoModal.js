@@ -12,7 +12,8 @@ class CreateTodoModal extends React.Component {
     this.state = {
       formData: {
         title: "",
-        context: "general",
+        context:
+          props.currentContext === "deleted" ? "general" : props.currentContext,
         description: "",
         type: "daily",
         date: {},
@@ -153,7 +154,13 @@ class CreateTodoModal extends React.Component {
             </Form.Group>
             <Form.Group controlId="newTodoContext">
               <Form.Label>Context</Form.Label>
-              <Form.Control as="select" className="mt-1" name="context" custom>
+              <Form.Control
+                as="select"
+                className="mt-1"
+                name="context"
+                defaultValue={this.state.formData.context}
+                custom
+              >
                 {contexts}
               </Form.Control>
               <Form.Text className="text-danger">
