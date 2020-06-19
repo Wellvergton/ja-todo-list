@@ -54,6 +54,7 @@ class CreateContextModal extends React.Component {
                 isInvalid={this.state.nameIsInvalid}
                 placeholder="Enter the new context name"
                 onChange={this.handleInput}
+                autoFocus
               />
               <Form.Text className="text-danger">
                 {this.state.nameIsInvalid ? "Context already exists" : ""}
