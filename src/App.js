@@ -27,6 +27,7 @@ class App extends React.Component {
     this.addTodo = this.addTodo.bind(this);
     this.setCurrentContext = this.setCurrentContext.bind(this);
     this.addContext = this.addContext.bind(this);
+    this.deleteContext = this.deleteContext.bind(this);
     this.showHideContextModal = this.showHideContextModal.bind(this);
     this.showHideTodoModal = this.showHideTodoModal.bind(this);
     this.setPaddingTop = this.setPaddingTop.bind(this);
@@ -70,12 +71,6 @@ class App extends React.Component {
     });
   }
 
-  addContext(name) {
-    let contextsCopy = this.state.contexts;
-    contextsCopy.push(name);
-    this.setState({ contexts: contextsCopy });
-  }
-
   addTodo(data) {
     const todos = this.state.todos;
     data.status = "pending";
@@ -86,8 +81,26 @@ class App extends React.Component {
     this.setState({ todos: todos });
   }
 
-  setCurrentContext(event) {
-    this.setState({ currentContext: event.target.innerHTML });
+  setCurrentContext(name) {
+    this.setState({ currentContext: name });
+  }
+
+  addContext(name) {
+    let contextsCopy = this.state.contexts;
+    contextsCopy.push(name);
+    this.setState({ contexts: contextsCopy });
+  }
+
+  deleteContext(name) {
+    let filteredTodos = this.state.todos.filter(
+      (todo) => todo.context !== name
+    );
+    let filteredContexts = this.state.contexts.filter(
+      (context) => context !== name
+    );
+
+    this.setCurrentContext("general");
+    this.setState({ todos: filteredTodos, contexts: filteredContexts });
   }
 
   showHideContextModal() {
@@ -179,9 +192,8 @@ class App extends React.Component {
           ref={this.toolBar}
           contexts={this.state.contexts}
           contextName={this.state.currentContext}
-          addTodo={this.addTodo}
           changeContext={this.setCurrentContext}
-          onCreateContext={this.addContext}
+          onDeleteContext={this.deleteContext}
           showHideTodoModal={this.showHideTodoModal}
           showHideContextModal={this.showHideContextModal}
           onShowMenu={this.setPaddingTop}

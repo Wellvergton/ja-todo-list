@@ -47,7 +47,7 @@ class ToolBar extends React.Component {
             className={`my-2 text-capitalize ${
               context === this.props.contextName ? "text-info" : "text-light"
             }`}
-            onClick={this.props.changeContext}
+            onClick={() => this.props.changeContext(context)}
             key={context + index}
           >
             {context}
@@ -75,17 +75,33 @@ class ToolBar extends React.Component {
             className={`my-2 text-capitalize ${
               this.props.contextName === "deleted" ? "text-info" : "text-light"
             }`}
-            onClick={this.props.changeContext}
+            onClick={() => this.props.changeContext("deleted")}
           >
             deleted
           </Nav.Item>
-          <Nav.Item className="my-0">
+          <Nav.Item className="my-2">
             <Button
               variant="outline-info"
               block
               onClick={this.props.showHideContextModal}
             >
-              <span className="font-weight-bold">Create a context</span>
+              <span className="font-weight-bold">Create context</span>
+            </Button>
+          </Nav.Item>
+          <Nav.Item
+            className={`my-2 ${
+              this.props.contextName === "general" ||
+              this.props.contextName === "deleted"
+                ? "d-none"
+                : ""
+            }`}
+          >
+            <Button
+              variant="outline-warning"
+              block
+              onClick={() => this.props.onDeleteContext(this.props.contextName)}
+            >
+              <span className="font-weight-bold">Delete current context</span>
             </Button>
           </Nav.Item>
         </Nav>
