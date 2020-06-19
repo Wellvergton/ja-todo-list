@@ -147,6 +147,8 @@ class CreateTodoModal extends React.Component {
                 className="mt-1"
                 name="title"
                 isInvalid={this.state.titleIsBlank}
+                onBlur={this.isTitleBlank}
+                autoFocus
               />
               <Form.Text className="text-danger">
                 {this.state.titleIsBlank ? "A name is required" : ""}
