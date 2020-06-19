@@ -89,6 +89,7 @@ class App extends React.Component {
     let contextsCopy = this.state.contexts;
     contextsCopy.push(name);
     this.setState({ contexts: contextsCopy });
+    this.setCurrentContext(name);
   }
 
   deleteContext(name) {
