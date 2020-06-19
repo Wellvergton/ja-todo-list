@@ -4,6 +4,7 @@ const currentDayOfTheWeek = currentDate.getDay();
 const currentMonth = currentDate.getMonth();
 const currentYear = currentDate.getFullYear();
 const currentTime = new Date(currentYear, currentMonth, currentDay).getTime();
+const tomorrow = new Date(currentYear, currentMonth, currentDay + 1);
 
 const types = {
   daily(data) {
@@ -63,9 +64,6 @@ const types = {
   },
 
   monthly(data) {
-    const tomorrow = new Date();
-    tomorrow.setDate(currentDay + 1);
-
     const status = {
       pending() {
         if (data.date.day === currentDay) {
@@ -108,6 +106,12 @@ const types = {
       pending() {
         if (dataTime === currentTime) {
           data.status = "today";
+        } else if (
+          data.date.day === 29 &&
+          data.date.month === 1 &&
+          tomorrow.getMonth() === 2
+        ) {
+          data.status = "today";
         }
       },
 
@@ -121,7 +125,7 @@ const types = {
         if (dataTime < currentTime) {
           data.status = "pending";
         }
-      }
+      },
     };
 
     if (status[data.status]) {

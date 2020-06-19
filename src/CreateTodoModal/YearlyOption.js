@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Alert from "react-bootstrap/Alert";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
@@ -20,6 +21,7 @@ function YearlyOptions() {
   ];
   let days = [];
   let months = [];
+  let [selectedDay, setSelectedDay] = useState(1);
   let [selectedMonth, setSelectedMonth] = useState(0);
   let amountOfDays;
 
@@ -33,7 +35,7 @@ function YearlyOptions() {
 
   for (let day = 1; day < amountOfDays + 1; day++) {
     days.push(
-      <option value={day} key={day}>
+      <option value={day} key={day} onClick={() => setSelectedDay(day)}>
         {day}
       </option>
     );
@@ -47,24 +49,31 @@ function YearlyOptions() {
   }
 
   return (
-    <Row>
-      <Col>
-        <Form.Group controlId="selectDayOfTheMonth">
-          <Form.Label>Day</Form.Label>
-          <Form.Control as="select" className="mt-1" name="day" custom>
-            {days}
-          </Form.Control>
-        </Form.Group>
-      </Col>
-      <Col>
-        <Form.Group controlId="selectMonth">
-          <Form.Label>Month</Form.Label>
-          <Form.Control as="select" className="mt-1" name="month" custom>
-            {months}
-          </Form.Control>
-        </Form.Group>
-      </Col>
-    </Row>
+    <>
+      <Row>
+        <Col>
+          <Form.Group controlId="selectDayOfTheMonth">
+            <Form.Label>Day</Form.Label>
+            <Form.Control as="select" className="mt-1" name="day" custom>
+              {days}
+            </Form.Control>
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group controlId="selectMonth">
+            <Form.Label>Month</Form.Label>
+            <Form.Control as="select" className="mt-1" name="month" custom>
+              {months}
+            </Form.Control>
+          </Form.Group>
+        </Col>
+      </Row>
+      {selectedDay === 29 && selectedMonth === 1 && (
+        <Alert variant="info">
+          In a not leap year 29 february will be anticipated to 28 february
+        </Alert>
+      )}
+    </>
   );
 }
 
