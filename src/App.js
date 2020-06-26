@@ -3,6 +3,7 @@ import "./App.scss";
 
 import CreateContextModal from "./CreateContextModal/CreateContextModal";
 import CreateTodoModal from "./CreateTodoModal/CreateTodoModal";
+import EditTodoModal from "./CreateTodoModal/EditTodoModal";
 import Todo from "./Todo/Todo";
 import ToolBar from "./ToolBar/ToolBar";
 import DeletedTodosSection from "./DeletedTodosSection/DeletedTodosSection";
@@ -18,18 +19,22 @@ class App extends React.Component {
       currentContext: "general",
       showCreateContextModal: false,
       showCreateTodoModal: false,
+      showEditTodoModal: false,
+      dataForEdit: {},
     };
     this.toolBar = React.createRef();
     this.wrapper = React.createRef();
     this.deleteTodo = this.deleteTodo.bind(this);
     this.restoreTodo = this.restoreTodo.bind(this);
     this.concludeTodo = this.concludeTodo.bind(this);
+    this.editTodo = this.editTodo.bind(this);
     this.addTodo = this.addTodo.bind(this);
     this.setCurrentContext = this.setCurrentContext.bind(this);
     this.addContext = this.addContext.bind(this);
     this.deleteContext = this.deleteContext.bind(this);
     this.showHideContextModal = this.showHideContextModal.bind(this);
-    this.showHideTodoModal = this.showHideTodoModal.bind(this);
+    this.showHideCreateTodoModal = this.showHideCreateTodoModal.bind(this);
+    this.showHideEditTodoModal = this.showHideEditTodoModal.bind(this);
     this.setPaddingTop = this.setPaddingTop.bind(this);
   }
 
@@ -81,6 +86,17 @@ class App extends React.Component {
     this.setState({ todos: todos });
   }
 
+  editTodo(data) {
+    let todos = this.state.todos;
+    data.status = "pending";
+    if (data.type === "weekly") {
+      data.date = data.date.sort();
+    }
+    todos = todos.map((todo) => (todo.id === data.id ? data : todo));
+    todos.push(data);
+    this.setState({ todos: todos });
+  }
+
   setCurrentContext(name) {
     this.setState({ currentContext: name });
   }
@@ -110,9 +126,16 @@ class App extends React.Component {
     });
   }
 
-  showHideTodoModal() {
+  showHideCreateTodoModal() {
     this.setState({
       showCreateTodoModal: !this.state.showCreateTodoModal,
+    });
+  }
+
+  showHideEditTodoModal(data) {
+    this.setState({ dataForEdit: data });
+    this.setState({
+      showEditTodoModal: !this.state.showEditTodoModal,
     });
   }
 
@@ -148,6 +171,7 @@ class App extends React.Component {
             delete={this.deleteTodo}
             restore={this.restoreTodo}
             conclude={this.concludeTodo}
+            onEdit={this.showHideEditTodoModal}
           />
         );
       }
@@ -186,8 +210,19 @@ class App extends React.Component {
             contexts={this.state.contexts}
             currentContext={this.state.currentContext}
             todos={this.state.todos}
-            onClose={this.showHideTodoModal}
+            onClose={this.showHideCreateTodoModal}
             onSave={this.addTodo}
+          />
+        )}
+        {this.state.showEditTodoModal && (
+          <EditTodoModal
+            data={this.state.dataForEdit}
+            show={this.state.showEditTodoModal}
+            contexts={this.state.contexts}
+            currentContext={this.state.currentContext}
+            todos={this.state.todos}
+            onClose={this.showHideEditTodoModal}
+            onSave={this.editTodo}
           />
         )}
         <ToolBar
@@ -196,7 +231,7 @@ class App extends React.Component {
           contextName={this.state.currentContext}
           changeContext={this.setCurrentContext}
           onDeleteContext={this.deleteContext}
-          showHideTodoModal={this.showHideTodoModal}
+          showHideTodoModal={this.showHideCreateTodoModal}
           showHideContextModal={this.showHideContextModal}
           onShowMenu={this.setPaddingTop}
         />

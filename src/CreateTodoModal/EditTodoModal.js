@@ -7,16 +7,11 @@ class CreateTodoModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      formData: {
-        title: "",
-        context:
-          props.currentContext === "deleted" ? "general" : props.currentContext,
-        description: "",
-        type: "daily",
-        date: {},
-      },
-      formIsInvalid: true,
+      formData: Object.assign({}, props.data),
+      formIsInvalid: false,
     };
+    this.originalContext = props.data.context;
+    this.originalTitle = props.data.title;
     this.form = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.setDateFormat = this.setDateFormat.bind(this);
@@ -38,9 +33,12 @@ class CreateTodoModal extends React.Component {
   isTodoDuplicated() {
     const title = this.state.formData.title;
     const context = this.state.formData.context;
-    return this.props.todos.some((todo) => {
-      return todo.title === title && todo.context === context;
-    });
+    return (
+      this.originalContext !== context &&
+      this.props.todos.some((todo) => {
+        return todo.title === title && todo.context === context;
+      })
+    );
   }
 
   validateInfo() {

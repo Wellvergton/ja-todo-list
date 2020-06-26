@@ -14,6 +14,7 @@ class Todo extends React.Component {
     this.cardBody = React.createRef();
     this.hideTodoBody = this.hideTodoBody.bind(this);
     this.fadeAndMakeAnAction = this.fadeAndMakeAnAction.bind(this);
+    this.onEdit = this.onEdit.bind(this);
   }
 
   hideTodoBody() {
@@ -40,6 +41,10 @@ class Todo extends React.Component {
         resolve();
       }, 100);
     });
+  }
+
+  onEdit() {
+    this.props.onEdit(this.props.data);
   }
 
   async fadeAndMakeAnAction(action) {
@@ -74,6 +79,7 @@ class Todo extends React.Component {
               description={this.props.data.description}
               infoType={this.props.data.type}
               date={this.props.data.date}
+              onEdit={this.onEdit}
             />
           </Card.Body>
           <Card.Footer className="p-0">

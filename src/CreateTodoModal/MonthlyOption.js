@@ -4,8 +4,8 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
-function MonthlyOptions() {
-  const [selectedDay, setSelectedDay] = useState(1);
+function MonthlyOptions(props) {
+  const [selectedDay, setSelectedDay] = useState(props.selectedDay);
   let days = [];
 
   for (let day = 1; day < 32; day++) {
@@ -22,7 +22,13 @@ function MonthlyOptions() {
         <Col xs={6}>
           <Form.Group controlId="selectDayOfTheMonth">
             <Form.Label>Day</Form.Label>
-            <Form.Control as="select" className="mt-1" name="day" custom>
+            <Form.Control
+              as="select"
+              className="mt-1"
+              name="day"
+              defaultValue={props.selectedDay}
+              custom
+            >
               {days}
             </Form.Control>
           </Form.Group>

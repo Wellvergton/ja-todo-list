@@ -21,7 +21,7 @@ function WeeklyOption(props) {
       <ToggleButton
         type="checkbox"
         variant="outline-info"
-        value={index}
+        value={parseInt(index)}
         key={index}
       >
         <span className="text-capitalize">{days[index].slice(0, 3)}</span>
@@ -37,6 +37,7 @@ function WeeklyOption(props) {
           type="checkbox"
           name="weekly"
           className="mt-1"
+          defaultValue={props.selectedDays}
           vertical
         >
           {options}

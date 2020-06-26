@@ -4,7 +4,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
-function YearlyOptions() {
+function YearlyOptions(props) {
   const monthNames = [
     "January",
     "February",
@@ -21,8 +21,8 @@ function YearlyOptions() {
   ];
   let days = [];
   let months = [];
-  let [selectedDay, setSelectedDay] = useState(1);
-  let [selectedMonth, setSelectedMonth] = useState(0);
+  let [selectedDay, setSelectedDay] = useState(props.selectedDate.day);
+  let [selectedMonth, setSelectedMonth] = useState(props.selectedDate.month);
   let amountOfDays;
 
   if ([0, 2, 4, 6, 7, 9, 11].includes(selectedMonth)) {
@@ -54,7 +54,13 @@ function YearlyOptions() {
         <Col>
           <Form.Group controlId="selectDayOfTheMonth">
             <Form.Label>Day</Form.Label>
-            <Form.Control as="select" className="mt-1" name="day" custom>
+            <Form.Control
+              as="select"
+              className="mt-1"
+              name="day"
+              defaultValue={props.selectedDate.day}
+              custom
+            >
               {days}
             </Form.Control>
           </Form.Group>
@@ -62,7 +68,13 @@ function YearlyOptions() {
         <Col>
           <Form.Group controlId="selectMonth">
             <Form.Label>Month</Form.Label>
-            <Form.Control as="select" className="mt-1" name="month" custom>
+            <Form.Control
+              as="select"
+              className="mt-1"
+              name="month"
+              defaultValue={props.selectedDate.month}
+              custom
+            >
               {months}
             </Form.Control>
           </Form.Group>
