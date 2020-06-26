@@ -49,7 +49,7 @@ class Todo extends React.Component {
 
   async fadeAndMakeAnAction(action) {
     await this.fadeOutTodo();
-    this.props[action](this.props.data.title, this.props.data.context);
+    this.props[action](this.props.data.id);
   }
 
   render() {

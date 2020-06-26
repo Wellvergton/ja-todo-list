@@ -38,10 +38,10 @@ class App extends React.Component {
     this.setPaddingTop = this.setPaddingTop.bind(this);
   }
 
-  deleteTodo(title, context) {
+  deleteTodo(id) {
     this.setState({
       todos: this.state.todos.map((todo) => {
-        if (todo.title === title && todo.context === context) {
+        if (todo.id === id) {
           todo.status = "deleted";
         }
         return todo;
@@ -49,10 +49,10 @@ class App extends React.Component {
     });
   }
 
-  restoreTodo(title, context) {
+  restoreTodo(id) {
     this.setState({
       todos: this.state.todos.map((todo) => {
-        if (todo.title === title && todo.context === context) {
+        if (todo.id === id) {
           todo.status = "pending";
         }
         return todo;
@@ -60,15 +60,14 @@ class App extends React.Component {
     });
   }
 
-  concludeTodo(title, context) {
+  concludeTodo(id) {
     this.setState({
       todos: this.state.todos.map((todo) => {
-        if (todo.title === title && todo.context === context) {
+        if (todo.id === id) {
           if (todo.status !== "concluded") {
             todo.status = "concluded";
           } else {
             todo.status = "pending";
-            setProperStatus(todo);
           }
         }
         return todo;
@@ -77,24 +76,29 @@ class App extends React.Component {
   }
 
   addTodo(data) {
-    const todos = this.state.todos;
+    const newTodos = this.state.todos;
+    const length = newTodos.length;
     data.status = "pending";
+    for (let i = 1; i <= length + 1; i++) {
+      if (!newTodos.some((todo) => todo.id === i)) {
+        data.id = i;
+      }
+    }
     if (data.type === "weekly") {
       data.date = data.date.sort();
     }
-    todos.push(data);
-    this.setState({ todos: todos });
+    newTodos.push(data);
+    console.log(data);
+    this.setState({ todos: newTodos });
   }
 
   editTodo(data) {
-    let todos = this.state.todos;
-    data.status = "pending";
+    let newTodos = this.state.todos;
     if (data.type === "weekly") {
       data.date = data.date.sort();
     }
-    todos = todos.map((todo) => (todo.id === data.id ? data : todo));
-    todos.push(data);
-    this.setState({ todos: todos });
+    newTodos = newTodos.map((todo) => (todo.id === data.id ? data : todo));
+    this.setState({ todos: newTodos });
   }
 
   setCurrentContext(name) {
