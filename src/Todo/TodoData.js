@@ -4,9 +4,9 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Octicon, { Pencil } from "@primer/octicons-react";
-import Weekly from "./RepetitionInfo/Weekly";
-import Monthly from "./RepetitionInfo/Monthly";
-import Yearly from "./RepetitionInfo/Yearly";
+import Weekly from "./Weekly";
+import Monthly from "./Monthly";
+import Yearly from "./Yearly";
 
 function TodoData(props) {
   let dataTypes = {

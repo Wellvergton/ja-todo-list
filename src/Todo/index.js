@@ -1,10 +1,10 @@
 import React from "react";
-import "./Todo.scss";
+import "./index.scss";
 import Card from "react-bootstrap/Card";
 
-import Main from "./Main/Main";
-import TodoData from "./TodoData/TodoData";
-import InfoToggler from "./InfoToggler/InfoToggler";
+import Main from "./Main";
+import TodoData from "./TodoData";
+import InfoToggler from "./InfoToggler";
 
 class Todo extends React.Component {
   constructor(props) {

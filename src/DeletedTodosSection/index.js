@@ -1,6 +1,6 @@
 import React from "react";
 import Col from "react-bootstrap/Col";
-import Todo from "../Todo/Todo";
+import Todo from "../Todo";
 
 function DeletedTodosScreen(props) {
   const contexts = [];

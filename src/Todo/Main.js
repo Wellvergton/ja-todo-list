@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Octicon, { Check, Sync, Trashcan } from "@primer/octicons-react";
-import CheckButton from "./CheckButton/CheckButton";
+import CheckButton from "./CheckButton";
 
 function Main(props) {
   return (
