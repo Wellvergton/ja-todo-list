@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Octicon, { ThreeBars, Plus, X } from "@primer/octicons-react";
+import { deleteContext } from "../contextManager";
 
 class ToolBar extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class ToolBar extends React.Component {
     this.nav = React.createRef();
     this.showHideMenu = this.showHideMenu.bind(this);
     this.setNavStyle = this.setNavStyle.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
 
   showHideMenu() {
@@ -35,6 +37,11 @@ class ToolBar extends React.Component {
   componentDidUpdate() {
     this.setNavStyle();
     this.props.onShowMenu(this.navBar.current.clientHeight);
+  }
+
+  onDelete() {
+    deleteContext(this.props.contextName);
+    this.props.changeContext("general");
   }
 
   render() {
@@ -96,11 +103,7 @@ class ToolBar extends React.Component {
                 : ""
             }`}
           >
-            <Button
-              variant="outline-warning"
-              block
-              onClick={() => this.props.onDeleteContext(this.props.contextName)}
-            >
+            <Button variant="outline-warning" block onClick={this.onDelete}>
               <span className="font-weight-bold">Delete current context</span>
             </Button>
           </Nav.Item>

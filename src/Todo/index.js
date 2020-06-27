@@ -5,6 +5,11 @@ import Card from "react-bootstrap/Card";
 import Main from "./Main";
 import TodoData from "./TodoData";
 import InfoToggler from "./InfoToggler";
+import {
+  deleteTodo as onDelete,
+  restoreTodo as onRestore,
+  concludeTodo as onConclude,
+} from "../todoManager";
 
 class Todo extends React.Component {
   constructor(props) {
@@ -15,6 +20,7 @@ class Todo extends React.Component {
     this.hideTodoBody = this.hideTodoBody.bind(this);
     this.fadeAndMakeAnAction = this.fadeAndMakeAnAction.bind(this);
     this.onEdit = this.onEdit.bind(this);
+    this.actions = { onDelete, onRestore, onConclude };
   }
 
   hideTodoBody() {
@@ -49,7 +55,7 @@ class Todo extends React.Component {
 
   async fadeAndMakeAnAction(action) {
     await this.fadeOutTodo();
-    this.props[action](this.props.data.id);
+    this.actions[action](this.props.data.id);
   }
 
   render() {

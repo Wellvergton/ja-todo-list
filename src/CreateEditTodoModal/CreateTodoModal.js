@@ -2,6 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import BaseForm from "./BaseForm";
+import { addTodo } from "../todoManager";
 
 class CreateTodoModal extends React.Component {
   constructor(props) {
@@ -32,7 +33,7 @@ class CreateTodoModal extends React.Component {
 
   handleSave() {
     this.handleClose();
-    this.props.onSave(this.state.formData);
+    addTodo(this.state.formData);
   }
 
   isTodoDuplicated() {

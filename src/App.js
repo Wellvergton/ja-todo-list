@@ -7,15 +7,16 @@ import EditTodoModal from "./CreateEditTodoModal/EditTodoModal";
 import Todo from "./Todo";
 import ToolBar from "./ToolBar";
 import DeletedTodosSection from "./DeletedTodosSection";
-import data from "./mock-todos";
 import setProperStatus from "./setProperStatus";
+import { TodosObserver } from "./todoManager";
+import { ContextObserver } from "./contextManager";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      todos: data,
-      contexts: ["general", "deleted", "test"],
+      todos: [],
+      contexts: [],
       currentContext: "general",
       showCreateContextModal: false,
       showCreateTodoModal: false,
@@ -24,104 +25,15 @@ class App extends React.Component {
     };
     this.toolBar = React.createRef();
     this.wrapper = React.createRef();
-    this.deleteTodo = this.deleteTodo.bind(this);
-    this.restoreTodo = this.restoreTodo.bind(this);
-    this.concludeTodo = this.concludeTodo.bind(this);
-    this.editTodo = this.editTodo.bind(this);
-    this.addTodo = this.addTodo.bind(this);
     this.setCurrentContext = this.setCurrentContext.bind(this);
-    this.addContext = this.addContext.bind(this);
-    this.deleteContext = this.deleteContext.bind(this);
     this.showHideContextModal = this.showHideContextModal.bind(this);
     this.showHideCreateTodoModal = this.showHideCreateTodoModal.bind(this);
     this.showHideEditTodoModal = this.showHideEditTodoModal.bind(this);
     this.setPaddingTop = this.setPaddingTop.bind(this);
   }
 
-  deleteTodo(id) {
-    this.setState({
-      todos: this.state.todos.map((todo) => {
-        if (todo.id === id) {
-          todo.status = "deleted";
-        }
-        return todo;
-      }),
-    });
-  }
-
-  restoreTodo(id) {
-    this.setState({
-      todos: this.state.todos.map((todo) => {
-        if (todo.id === id) {
-          todo.status = "pending";
-        }
-        return todo;
-      }),
-    });
-  }
-
-  concludeTodo(id) {
-    this.setState({
-      todos: this.state.todos.map((todo) => {
-        if (todo.id === id) {
-          if (todo.status !== "concluded") {
-            todo.status = "concluded";
-          } else {
-            todo.status = "pending";
-          }
-        }
-        return todo;
-      }),
-    });
-  }
-
-  addTodo(data) {
-    const newTodos = this.state.todos;
-    const length = newTodos.length;
-    data.status = "pending";
-    for (let i = 1; i <= length + 1; i++) {
-      if (!newTodos.some((todo) => todo.id === i)) {
-        data.id = i;
-      }
-    }
-    if (data.type === "weekly") {
-      data.date = data.date.sort();
-    }
-    newTodos.push(data);
-    console.log(data);
-    this.setState({ todos: newTodos });
-  }
-
-  editTodo(data) {
-    let newTodos = this.state.todos;
-    if (data.type === "weekly") {
-      data.date = data.date.sort();
-    }
-    newTodos = newTodos.map((todo) => (todo.id === data.id ? data : todo));
-    this.setState({ todos: newTodos });
-  }
-
   setCurrentContext(name) {
     this.setState({ currentContext: name });
-  }
-
-  addContext(name) {
-    let contextsCopy = this.state.contexts;
-    contextsCopy.push(name);
-    this.setState({ contexts: contextsCopy });
-    this.setCurrentContext(name);
-  }
-
-  deleteContext(name) {
-    let filteredTodos = this.state.todos.filter(
-      (todo) => todo.context !== name
-    );
-    let filteredContexts = this.state.contexts.filter(
-      (context) => context !== name
-    );
-
-    this.setCurrentContext("general");
-    this.setState({ todos: filteredTodos, contexts: filteredContexts });
   }
 
   showHideContextModal() {
@@ -150,6 +62,20 @@ class App extends React.Component {
   componentDidMount() {
     const toolBarHeight = this.toolBar.current.navBar.current.clientHeight;
     this.wrapper.current.style.paddingTop = `${toolBarHeight}px`;
+
+    TodosObserver.subscribe((todos) => this.setState({ todos: todos }));
+
+    ContextObserver.subscribe((contexts) =>
+      this.setState({ contexts: contexts })
+    );
+  }
+
+  componentWillUnmount() {
+    TodosObserver.unsubscribe((todos) => this.setState({ todos: todos }));
+
+    ContextObserver.unsubscribe((contexts) => {
+      this.setState({ contexts: contexts });
+    });
   }
 
   render() {
@@ -172,9 +98,6 @@ class App extends React.Component {
           <Todo
             data={todo}
             key={todo.title + new Date().getMilliseconds()}
-            delete={this.deleteTodo}
-            restore={this.restoreTodo}
-            conclude={this.concludeTodo}
             onEdit={this.showHideEditTodoModal}
           />
         );
@@ -205,7 +128,7 @@ class App extends React.Component {
             show={this.state.showCreateContextModal}
             contexts={this.state.contexts}
             onClose={this.showHideContextModal}
-            onSave={this.addContext}
+            onSave={this.setCurrentContext}
           />
         )}
         {this.state.showCreateTodoModal && (
@@ -215,7 +138,6 @@ class App extends React.Component {
             currentContext={this.state.currentContext}
             todos={this.state.todos}
             onClose={this.showHideCreateTodoModal}
-            onSave={this.addTodo}
           />
         )}
         {this.state.showEditTodoModal && (
@@ -226,7 +148,6 @@ class App extends React.Component {
             currentContext={this.state.currentContext}
             todos={this.state.todos}
             onClose={this.showHideEditTodoModal}
-            onSave={this.editTodo}
           />
         )}
         <ToolBar
@@ -234,7 +155,6 @@ class App extends React.Component {
           contexts={this.state.contexts}
           contextName={this.state.currentContext}
           changeContext={this.setCurrentContext}
-          onDeleteContext={this.deleteContext}
           showHideTodoModal={this.showHideCreateTodoModal}
           showHideContextModal={this.showHideContextModal}
           onShowMenu={this.setPaddingTop}

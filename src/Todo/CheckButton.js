@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 function CheckButton(props) {
   function handleClick() {
     if (props.status !== "deleted") {
-      props.onClick("conclude");
+      props.onClick("onConclude");
     }
   }
 
@@ -12,11 +12,7 @@ function CheckButton(props) {
     <Button
       size="sm"
       variant="light"
-      className={`text-dark ${
-        props.status === "deleted"
-          ? "disabled"
-          : ""
-      }`}
+      className={`text-dark ${props.status === "deleted" ? "disabled" : ""}`}
       onClick={handleClick}
     >
       {props.children}

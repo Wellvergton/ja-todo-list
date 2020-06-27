@@ -32,8 +32,8 @@ function Main(props) {
               variant="light"
               onClick={
                 props.status !== "deleted"
-                  ? () => props.action("delete")
-                  : () => props.action("restore")
+                  ? () => props.action("onDelete")
+                  : () => props.action("onRestore")
               }
             >
               <Octicon icon={props.status !== "deleted" ? Trashcan : Sync} />

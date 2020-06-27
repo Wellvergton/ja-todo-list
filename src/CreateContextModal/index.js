@@ -2,6 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import { addContext } from "../contextManager";
 
 class CreateContextModal extends React.Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class CreateContextModal extends React.Component {
   }
 
   handleSave() {
+    addContext(this.state.newContextName);
     this.props.onSave(this.state.newContextName);
     this.handleClose();
   }
