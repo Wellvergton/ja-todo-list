@@ -3,7 +3,7 @@ import "./ToolBar.scss";
 import Button from "react-bootstrap/Button";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import Octicon, { ListUnordered, Plus, X } from "@primer/octicons-react";
+import Octicon, { ThreeBars, Plus, X } from "@primer/octicons-react";
 
 class ToolBar extends React.Component {
   constructor(props) {
@@ -56,10 +56,10 @@ class ToolBar extends React.Component {
       });
 
     return (
-      <Navbar bg="dark" expand="md" ref={this.navBar}>
+      <Navbar bg="dark" expand="" ref={this.navBar}>
         <Button variant="dark" onClick={this.showHideMenu}>
           <Octicon
-            icon={this.state.menuIsVisible ? X : ListUnordered}
+            icon={this.state.menuIsVisible ? X : ThreeBars}
             size="medium"
           />
         </Button>

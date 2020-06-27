@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.scss";
-
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 import CreateContextModal from "./CreateContextModal/CreateContextModal";
 import CreateTodoModal from "./CreateTodoModal/CreateTodoModal";
 import EditTodoModal from "./CreateTodoModal/EditTodoModal";
@@ -184,16 +185,16 @@ class App extends React.Component {
     let sections = [];
 
     for (let todoStatus in todos) {
-      if (todoStatus !== "deleted") {
+      if (todoStatus !== "deleted" && todos[todoStatus].length > 0) {
         sections.push(
-          <section key={todoStatus}>
+          <Col as="section" key={todoStatus} xs={12} sm={6} md={4} lg={3}>
             {todos[todoStatus].length > 0 && (
               <p className="h3 font-weight-bold text-capitalize">
                 {todoStatus}
               </p>
             )}
             {todos[todoStatus]}
-          </section>
+          </Col>
         );
       }
     }
@@ -239,7 +240,7 @@ class App extends React.Component {
           showHideContextModal={this.showHideContextModal}
           onShowMenu={this.setPaddingTop}
         />
-        <main>
+        <Row as="main" className="mx-0">
           {this.state.currentContext === "deleted" ? (
             <DeletedTodosSection
               todos={this.state.todos}
@@ -248,7 +249,7 @@ class App extends React.Component {
           ) : (
             sections
           )}
-        </main>
+        </Row>
       </div>
     );
   }

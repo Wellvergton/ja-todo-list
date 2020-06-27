@@ -24,7 +24,7 @@ function TodoData(props) {
       <Container>
         <Row className="align-items-center">
           <Col className="pl-0">{dataTypes[props.infoType]}</Col>
-          <Col xs={2}>
+          <Col xs={2} className="d-flex flex-row-reverse pr-0">
             <Button variant="light" size="sm" onClick={props.onEdit}>
               <Octicon icon={Pencil} />
             </Button>

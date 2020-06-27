@@ -1,4 +1,5 @@
 import React from "react";
+import Col from "react-bootstrap/Col";
 import Todo from "../Todo/Todo";
 
 function DeletedTodosScreen(props) {
@@ -30,10 +31,10 @@ function DeletedTodosScreen(props) {
 
   contexts.forEach((context) => {
     sections.push(
-      <section key={context}>
+      <Col as="section" key={context} xs={12} sm={6} md={4} lg={3}>
         <p className="h3 font-weight-bold text-capitalize">{context}</p>
         {todos[context]}
-      </section>
+      </Col>
     );
   });
 

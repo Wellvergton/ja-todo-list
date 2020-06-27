@@ -36,18 +36,24 @@ function WeeklyOption(props) {
         <ToggleButtonGroup
           type="checkbox"
           name="weekly"
-          className="mt-1"
+          className="mt-1 d-sm-none"
           defaultValue={props.selectedDays}
           vertical
+        >
+          {options}
+        </ToggleButtonGroup>
+        <ToggleButtonGroup
+          type="checkbox"
+          name="weekly"
+          className="mt-1 d-none d-sm-block"
+          defaultValue={props.selectedDays}
         >
           {options}
         </ToggleButtonGroup>
       </Form.Group>
       {(!Array.isArray(props.selectedDays) ||
         props.selectedDays.length === 0) && (
-        <Alert variant="warning">
-          Select at least one day
-        </Alert>
+        <Alert variant="warning">Select at least one day</Alert>
       )}
     </>
   );
