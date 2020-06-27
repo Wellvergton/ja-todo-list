@@ -6,8 +6,8 @@ let contexts = localStorage.contexts
 const ContextObserver = {
   observers: [],
 
-  notify() {
-    this.observers.forEach((observer) => observer(contexts));
+  notify(value) {
+    this.observers.forEach((observer) => observer(value));
   },
 
   subscribe(callback) {
@@ -26,13 +26,13 @@ function saveToLocalStorage() {
 
 function addContext(name) {
   contexts.push(name);
-  ContextObserver.notify();
+  ContextObserver.notify(contexts);
   saveToLocalStorage();
 }
 
 function deleteContext(name) {
   contexts = contexts.filter((context) => context !== name);
-  ContextObserver.notify();
+  ContextObserver.notify(contexts);
   saveToLocalStorage();
 }
 
