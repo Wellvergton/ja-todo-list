@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.scss";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import CreateContextModal from "./CreateContextModal/CreateContextModal";

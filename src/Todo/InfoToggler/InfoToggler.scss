@@ -1,3 +1,6 @@
-.InfoToggler svg, path{
+@import "../../index.scss";
+
+.InfoToggler svg,
+path {
   transition: rotate 1s;
 }

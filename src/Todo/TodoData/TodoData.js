@@ -1,5 +1,4 @@
 import React from "react";
-import "./TodoData.scss";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -19,7 +18,7 @@ function TodoData(props) {
   };
 
   return (
-    <div className="TodoData">
+    <>
       <p className="card-text">{props.description}</p>
       <Container>
         <Row className="align-items-center">
@@ -31,7 +30,7 @@ function TodoData(props) {
           </Col>
         </Row>
       </Container>
-    </div>
+    </>
   );
 }
 
