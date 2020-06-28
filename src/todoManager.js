@@ -14,8 +14,8 @@ let todos = localStorage.todos ? JSON.parse(localStorage.todos) : defaultTodos;
 const TodosObserver = {
   observers: [],
 
-  notify(value) {
-    this.observers.forEach((observer) => observer(value));
+  notify() {
+    this.observers.forEach((observer) => observer(todos));
   },
 
   subscribe(callback) {
@@ -40,7 +40,7 @@ function deleteTodo(id) {
     return todo;
   });
 
-  TodosObserver.notify(todos);
+  TodosObserver.notify();
   saveTodosToLocalStorage();
 }
 
@@ -52,7 +52,7 @@ function restoreTodo(id) {
     return todo;
   });
 
-  TodosObserver.notify(todos);
+  TodosObserver.notify();
   saveTodosToLocalStorage();
 }
 
@@ -69,7 +69,7 @@ function concludeTodo(id) {
     return todo;
   });
 
-  TodosObserver.notify(todos);
+  TodosObserver.notify();
   saveTodosToLocalStorage();
 }
 
@@ -90,7 +90,7 @@ function addTodo(data) {
 
   todos.push(data);
 
-  TodosObserver.notify(todos);
+  TodosObserver.notify();
   saveTodosToLocalStorage();
 }
 
@@ -101,7 +101,7 @@ function editTodo(data) {
 
   todos = todos.map((todo) => (todo.id === data.id ? data : todo));
 
-  TodosObserver.notify(todos);
+  TodosObserver.notify();
   saveTodosToLocalStorage();
 }
 
