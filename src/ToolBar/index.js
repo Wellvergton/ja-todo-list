@@ -51,9 +51,11 @@ class ToolBar extends React.Component {
       .map((context, index) => {
         return (
           <Nav.Item
-            className={`my-2 text-capitalize ${
-              context === this.props.contextName ? "text-info" : "text-light"
+            className={`my-2 text-capitalize text-light ${
+              context === this.props.contextName ? "font-weight-bold" : ""
             }`}
+            role="button"
+            tabIndex={0}
             onClick={() => this.props.changeContext(context)}
             key={context + index}
           >
@@ -64,7 +66,11 @@ class ToolBar extends React.Component {
 
     return (
       <Navbar bg="dark" expand="" ref={this.navBar}>
-        <Button variant="dark" onClick={this.showHideMenu}>
+        <Button
+          variant="dark"
+          onClick={this.showHideMenu}
+          aria-label={this.state.menuIsVisible ? "Close menu" : "Menu"}
+        >
           <Octicon
             icon={this.state.menuIsVisible ? X : ThreeBars}
             size="medium"
@@ -73,7 +79,11 @@ class ToolBar extends React.Component {
         <Navbar.Text className="text-capitalize text-light">
           {this.props.contextName}
         </Navbar.Text>
-        <Button variant="dark" onClick={this.props.showHideTodoModal}>
+        <Button
+          variant="dark"
+          onClick={this.props.showHideTodoModal}
+          aria-label="Create a todo"
+        >
           <Octicon icon={Plus} size="medium" />
         </Button>
         <Nav ref={this.nav} className="w-100">
@@ -82,13 +92,15 @@ class ToolBar extends React.Component {
             className={`my-2 text-capitalize ${
               this.props.contextName === "deleted" ? "text-info" : "text-light"
             }`}
+            role="button"
+            tabIndex={0}
             onClick={() => this.props.changeContext("deleted")}
           >
             deleted
           </Nav.Item>
           <Nav.Item className="my-2">
             <Button
-              variant="outline-info"
+              variant="primary"
               block
               onClick={this.props.showHideContextModal}
             >
@@ -103,7 +115,7 @@ class ToolBar extends React.Component {
                 : ""
             }`}
           >
-            <Button variant="outline-warning" block onClick={this.onDelete}>
+            <Button variant="warning" block onClick={this.onDelete}>
               <span className="font-weight-bold">Delete current context</span>
             </Button>
           </Nav.Item>

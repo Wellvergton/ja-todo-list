@@ -22,6 +22,7 @@ function InfoToggler(props) {
       className={`InfoToggler text-${props.textColor} p-0`}
       variant={props.bgColor}
       block
+      aria-label="Show or Hide todo info"
       onClick={handleClick}
     >
       <Octicon icon={ChevronDown} />

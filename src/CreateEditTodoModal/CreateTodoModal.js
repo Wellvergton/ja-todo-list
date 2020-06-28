@@ -103,9 +103,17 @@ class CreateTodoModal extends React.Component {
 
   render() {
     return (
-      <Modal show={this.props.show} animation={false} centered={true}>
+      <Modal
+        show={this.props.show}
+        animation={false}
+        centered={true}
+        backdrop="static"
+        aria-labelledby="create-todo-modal-title"
+      >
         <Modal.Header>
-          <Modal.Title>Create a new Todo</Modal.Title>
+          <Modal.Title id="create-todo-modal-title">
+            Create a new Todo
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <BaseForm

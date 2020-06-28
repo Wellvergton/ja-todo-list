@@ -13,6 +13,7 @@ function CheckButton(props) {
       size="sm"
       variant="light"
       className={`text-dark ${props.status === "deleted" ? "disabled" : ""}`}
+      aria-label="Conclude todo"
       onClick={handleClick}
     >
       {props.children}

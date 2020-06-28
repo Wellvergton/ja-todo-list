@@ -30,6 +30,9 @@ function Main(props) {
             <Button
               size="sm"
               variant="light"
+              aria-label={
+                props.status !== "deleted" ? "Delete todo" : "Restore todo"
+              }
               onClick={
                 props.status !== "deleted"
                   ? () => props.action("onDelete")

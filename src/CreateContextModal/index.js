@@ -43,9 +43,12 @@ class CreateContextModal extends React.Component {
         backdrop="static"
         animation={false}
         centered
+        aria-labelledby="create-context-modal-title"
       >
         <Modal.Header>
-          <Modal.Title>Create a new context</Modal.Title>
+          <Modal.Title id="create-context-modal-title">
+            Create a new context
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -57,6 +60,7 @@ class CreateContextModal extends React.Component {
                 placeholder="Enter the new context name"
                 onChange={this.handleInput}
                 autoFocus
+                required
               />
               <Form.Text className="text-danger">
                 {this.state.nameIsInvalid ? "Context already exists" : ""}
@@ -72,6 +76,9 @@ class CreateContextModal extends React.Component {
             variant="primary"
             onClick={this.handleSave}
             disabled={
+              this.state.nameIsInvalid || this.state.newContextName === ""
+            }
+            aria-disabled={
               this.state.nameIsInvalid || this.state.newContextName === ""
             }
           >
