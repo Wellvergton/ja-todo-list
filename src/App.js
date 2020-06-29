@@ -95,11 +95,7 @@ class App extends React.Component {
       ) {
         todo = setProperStatus(todo);
         todos[todo.status].push(
-          <Todo
-            data={todo}
-            key={todo.title + new Date().getMilliseconds()}
-            onEdit={this.showHideEditTodoModal}
-          />
+          <Todo data={todo} key={todo.id} onEdit={this.showHideEditTodoModal} />
         );
       }
     }
