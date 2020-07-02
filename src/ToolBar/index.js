@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Octicon, { ThreeBars, Plus, X } from "@primer/octicons-react";
+import DeleteAlert from "./DeleteAlert";
 import { deleteContext } from "../contextManager";
 
 class ToolBar extends React.Component {
@@ -11,16 +12,27 @@ class ToolBar extends React.Component {
     super(props);
     this.state = {
       menuIsVisible: false,
+      deleteAlertIsVisible: false,
     };
     this.navBar = React.createRef();
     this.nav = React.createRef();
     this.showHideMenu = this.showHideMenu.bind(this);
+    this.showDeleteAlert = this.showDeleteAlert.bind(this);
+    this.hideDeleteAlert = this.hideDeleteAlert.bind(this);
     this.setNavStyle = this.setNavStyle.bind(this);
     this.onDelete = this.onDelete.bind(this);
   }
 
   showHideMenu() {
     this.setState({ menuIsVisible: !this.state.menuIsVisible });
+  }
+
+  showDeleteAlert() {
+    this.setState({ deleteAlertIsVisible: true });
+  }
+
+  hideDeleteAlert() {
+    this.setState({ deleteAlertIsVisible: false });
   }
 
   setNavStyle() {
@@ -122,10 +134,15 @@ class ToolBar extends React.Component {
                 : ""
             }`}
           >
-            <Button variant="warning" block onClick={this.onDelete}>
+            <Button variant="warning" block onClick={this.showDeleteAlert}>
               <span className="font-weight-bold">Delete current context</span>
             </Button>
           </Nav.Item>
+          <DeleteAlert
+            show={this.state.deleteAlertIsVisible}
+            onHide={this.hideDeleteAlert}
+            onDelete={this.onDelete}
+          />
         </Nav>
       </Navbar>
     );
