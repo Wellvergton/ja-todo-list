@@ -12,3 +12,8 @@
 .navbar .navbar-nav .nav-item {
   cursor: pointer;
 }
+
+.selected-nav-item {
+  font-weight: bold;
+  text-decoration: underline;
+}

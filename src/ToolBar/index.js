@@ -61,10 +61,10 @@ class ToolBar extends React.Component {
       .map((context, index) => {
         return (
           <Nav.Item
-            className={`my-2 text-capitalize text-light ${
-              context === this.props.contextName ? "font-weight-bold" : ""
+            className={`p-2 text-capitalize text-light ${
+              context === this.props.contextName ? "selected-nav-item" : ""
             }`}
-            role="button"
+            role="menuitem"
             tabIndex={0}
             onClick={() => this.props.changeContext(context)}
             onKeyDown={(event) => {
@@ -80,7 +80,7 @@ class ToolBar extends React.Component {
       });
 
     return (
-      <Navbar bg="dark" expand="" ref={this.navBar}>
+      <Navbar bg="dark" expand="" ref={this.navBar} aria-label="contexts menu">
         <Button
           variant="dark"
           onClick={this.showHideMenu}
@@ -103,7 +103,7 @@ class ToolBar extends React.Component {
         >
           <Octicon icon={Plus} size="medium" />
         </Button>
-        <Nav ref={this.nav} className="w-100">
+        <Nav ref={this.nav} className="w-100" role="menu">
           {contexts}
           <Nav.Item className="my-2">
             <Button
