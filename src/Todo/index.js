@@ -25,10 +25,12 @@ class Todo extends React.Component {
 
   hideTodoBody() {
     if (this.showCardBody === false) {
+      this.cardBody.current.style.display = "block";
       this.cardBody.current.style.height = `${this.cardBody.current.scrollHeight}px`;
       this.showCardBody = true;
     } else {
       this.cardBody.current.style.height = "0";
+      setTimeout(() => (this.cardBody.current.style.display = "none"), 500);
       this.showCardBody = false;
     }
   }
