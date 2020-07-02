@@ -59,6 +59,12 @@ class CreateContextModal extends React.Component {
                 isInvalid={this.state.nameIsInvalid}
                 placeholder="Enter the new context name"
                 onChange={this.handleInput}
+                onKeyDown={(event) => {
+                  if (event.keyCode === 13) {
+                    event.preventDefault();
+                    this.handleSave();
+                  }
+                }}
                 autoFocus
                 required
               />
