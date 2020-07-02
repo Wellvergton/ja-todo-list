@@ -24,6 +24,7 @@ class ToolBar extends React.Component {
   }
 
   setNavStyle() {
+    this.nav.current.style.display = this.state.menuIsVisible ? "" : "none";
     this.nav.current.style.maxHeight = this.state.menuIsVisible
       ? `${this.nav.current.scrollHeight}px`
       : "0px";
@@ -36,7 +37,7 @@ class ToolBar extends React.Component {
 
   componentDidUpdate() {
     this.setNavStyle();
-    this.props.onShowMenu(this.navBar.current.clientHeight);
+    setTimeout(() => this.props.onShowMenu(this.navBar.current.clientHeight));
   }
 
   onDelete() {
@@ -46,8 +47,17 @@ class ToolBar extends React.Component {
 
   render() {
     const contexts = this.props.contexts
-      .sort()
-      .filter((context) => context !== "deleted")
+      .sort((a, b) => {
+        if (a === b) {
+          return 0;
+        } else if (a === "deleted") {
+          return 1;
+        } else if (b === "deleted") {
+          return -1;
+        } else {
+          return a > b ? 1 : -1;
+        }
+      })
       .map((context, index) => {
         return (
           <Nav.Item
@@ -57,6 +67,11 @@ class ToolBar extends React.Component {
             role="button"
             tabIndex={0}
             onClick={() => this.props.changeContext(context)}
+            onKeyDown={(event) => {
+              if ([13, 32].includes(event.keyCode)) {
+                this.props.changeContext(context);
+              }
+            }}
             key={context + index}
           >
             {context}
@@ -70,6 +85,8 @@ class ToolBar extends React.Component {
           variant="dark"
           onClick={this.showHideMenu}
           aria-label={this.state.menuIsVisible ? "Close menu" : "Menu"}
+          aria-haspopup="true"
+          aria-expanded={this.state.menuIsVisible}
         >
           <Octicon
             icon={this.state.menuIsVisible ? X : ThreeBars}
@@ -88,16 +105,6 @@ class ToolBar extends React.Component {
         </Button>
         <Nav ref={this.nav} className="w-100">
           {contexts}
-          <Nav.Item
-            className={`my-2 text-capitalize ${
-              this.props.contextName === "deleted" ? "text-info" : "text-light"
-            }`}
-            role="button"
-            tabIndex={0}
-            onClick={() => this.props.changeContext("deleted")}
-          >
-            deleted
-          </Nav.Item>
           <Nav.Item className="my-2">
             <Button
               variant="primary"
