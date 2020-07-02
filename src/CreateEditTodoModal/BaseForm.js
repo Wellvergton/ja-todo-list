@@ -55,6 +55,11 @@ class BaseForm extends React.Component {
             name="title"
             isInvalid={this.state.titleIsBlank}
             onBlur={this.validateForm}
+            onKeyDown={(event) => {
+              if (event.keyCode === 13) {
+                event.preventDefault();
+              }
+            }}
             defaultValue={this.props.formData.title}
             autoFocus
           />
