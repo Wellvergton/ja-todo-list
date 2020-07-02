@@ -14,8 +14,8 @@ class CreateContextModal extends React.Component {
   }
 
   handleClose() {
-    this.props.onClose();
     this.setState({ nameIsInvalid: false });
+    this.props.onClose();
   }
 
   handleSave() {
