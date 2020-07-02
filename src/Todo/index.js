@@ -6,7 +6,7 @@ import Main from "./Main";
 import TodoData from "./TodoData";
 import InfoToggler from "./InfoToggler";
 import {
-  deleteTodo as onDelete,
+  setTodoAsDeleted as onDelete,
   restoreTodo as onRestore,
   concludeTodo as onConclude,
 } from "../todoManager";
