@@ -1,3 +1,5 @@
+import { deleteTodoPermanently } from "./todoManager";
+
 const defaultContexts = ["general", "deleted"];
 let contexts = localStorage.contexts
   ? JSON.parse(localStorage.contexts)
@@ -31,6 +33,7 @@ function addContext(name) {
 }
 
 function deleteContext(name) {
+  deleteTodoPermanently("context", name);
   contexts = contexts.filter((context) => context !== name);
   ContextObserver.notify();
   saveToLocalStorage();

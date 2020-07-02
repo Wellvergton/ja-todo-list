@@ -32,13 +32,20 @@ function saveTodosToLocalStorage() {
   localStorage.todos = JSON.stringify(todos);
 }
 
-function deleteTodo(id) {
+function setTodoAsDeleted(id) {
   todos = todos.map((todo) => {
     if (todo.id === id) {
       todo.status = "deleted";
     }
     return todo;
   });
+
+  TodosObserver.notify();
+  saveTodosToLocalStorage();
+}
+
+function deleteTodoPermanently(prop, value) {
+  todos = todos.filter((todo) => todo[prop] !== value);
 
   TodosObserver.notify();
   saveTodosToLocalStorage();
@@ -106,7 +113,8 @@ function editTodo(data) {
 }
 
 export {
-  deleteTodo,
+  setTodoAsDeleted,
+  deleteTodoPermanently,
   restoreTodo,
   concludeTodo,
   addTodo,
