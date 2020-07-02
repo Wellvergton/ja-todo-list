@@ -107,6 +107,7 @@ class CreateTodoModal extends React.Component {
         show={this.props.show}
         animation={false}
         centered={true}
+        onHide={this.handleClose}
         backdrop="static"
         aria-labelledby="create-todo-modal-title"
       >
