@@ -14,7 +14,6 @@ class ToolBar extends React.Component {
       menuIsVisible: false,
       deleteAlertIsVisible: false,
     };
-    this.navBar = React.createRef();
     this.nav = React.createRef();
     this.showHideMenu = this.showHideMenu.bind(this);
     this.showDeleteAlert = this.showDeleteAlert.bind(this);
@@ -49,7 +48,7 @@ class ToolBar extends React.Component {
 
   componentDidUpdate() {
     this.setNavStyle();
-    setTimeout(() => this.props.onShowMenu(this.navBar.current.clientHeight));
+    setTimeout(() => this.props.onShowMenu());
   }
 
   onDelete() {
@@ -92,7 +91,12 @@ class ToolBar extends React.Component {
       });
 
     return (
-      <Navbar bg="dark" expand="" ref={this.navBar} aria-label="contexts menu">
+      <Navbar
+        bg="dark"
+        expand=""
+        ref={this.props.forwardRef}
+        aria-label="contexts menu"
+      >
         <Button
           variant="dark"
           onClick={this.showHideMenu}
@@ -149,4 +153,6 @@ class ToolBar extends React.Component {
   }
 }
 
-export default ToolBar;
+export default React.forwardRef((props, ref) => {
+  return <ToolBar forwardRef={ref} {...props} />;
+});

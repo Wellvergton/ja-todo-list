@@ -55,13 +55,13 @@ class App extends React.Component {
     });
   }
 
-  setPaddingTop(value) {
-    this.wrapper.current.style.paddingTop = `${value}px`;
+  setPaddingTop() {
+    const toolBarHeight = this.toolBar.current.clientHeight;
+    this.wrapper.current.style.paddingTop = `${toolBarHeight}px`;
   }
 
   componentDidMount() {
-    const toolBarHeight = this.toolBar.current.navBar.current.clientHeight;
-    this.wrapper.current.style.paddingTop = `${toolBarHeight}px`;
+    this.setPaddingTop();
 
     TodosObserver.subscribe((todos) => this.setState({ todos: todos }));
 
