@@ -73,6 +73,8 @@ const types = {
           [29, 30, 31].includes(data.date.day)
         ) {
           data.status = "today";
+        } else if (data.date.day < currentDay) {
+          data.status = "delayed";
         }
       },
 
@@ -112,6 +114,8 @@ const types = {
           tomorrow.getMonth() === 2
         ) {
           data.status = "today";
+        } else if (dataTime < currentTime) {
+          data.status = "delayed";
         }
       },
 
