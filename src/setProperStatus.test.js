@@ -29,7 +29,7 @@ function testStatus(status) {
 describe(descriptionFor("daily"), () => {
   beforeEach(() => (testData.type = "daily"));
 
-  test(testStatus("today"), () => {
+  it(testStatus("today"), () => {
     result = setProperStatus(testData);
     expect(result.status).toBe("today");
 
@@ -40,13 +40,13 @@ describe(descriptionFor("daily"), () => {
     expect(result.date.day).toEqual(today.getDate());
   });
 
-  test(testStatus("concluded"), () => {
+  it(testStatus("concluded"), () => {
     testData.status = "concluded";
     result = setProperStatus(testData);
     expect(result.status).toBe("concluded");
   });
 
-  test(testStatus("delayed"), () => {
+  it(testStatus("delayed"), () => {
     testData.date.day = today.getDate() - 1;
     testData.status = "today";
     result = setProperStatus(testData);
@@ -57,13 +57,13 @@ describe(descriptionFor("daily"), () => {
 describe(descriptionFor("weekly"), () => {
   beforeEach(() => (testData.type = "weekly"));
 
-  test(testStatus("today"), () => {
+  it(testStatus("today"), () => {
     testData.date = [today.getDay()];
     result = setProperStatus(testData);
     expect(result.status).toBe("today");
   });
 
-  test(testStatus("pending"), () => {
+  it(testStatus("pending"), () => {
     testData.date = [today.getDay() - 2, today.getDay() + 2];
     result = setProperStatus(testData);
     expect(result.status).toBe("pending");
@@ -72,14 +72,14 @@ describe(descriptionFor("weekly"), () => {
     expect(result.status).toBe("pending");
   });
 
-  test(testStatus("concluded"), () => {
+  it(testStatus("concluded"), () => {
     testData.date = [today.getDay(), today.getDay() - 2, today.getDay() + 2];
     testData.status = "concluded";
     result = setProperStatus(testData);
     expect(result.status).toBe("concluded");
   });
 
-  test(testStatus("delayed"), () => {
+  it(testStatus("delayed"), () => {
     testData.date = [today.getDay() - 2, today.getDay() + 2];
     testData.status = "today";
     result = setProperStatus(testData);
@@ -90,25 +90,26 @@ describe(descriptionFor("weekly"), () => {
 describe(descriptionFor("monthly"), () => {
   beforeEach(() => (testData.type = "monthly"));
 
-  test(testStatus("today"), () => {
+  it(testStatus("today"), () => {
     result = setProperStatus(testData);
     expect(result.status).toBe("today");
-    // TODO: TEST FOR LEAP YEAR
   });
 
-  test(testStatus("pending"), () => {
+  test.todo("test for the last days of the month");
+
+  it(testStatus("pending"), () => {
     testData.date.day = today.getDate() + 1;
     result = setProperStatus(testData);
     expect(result.status).toBe("pending");
   });
 
-  test(testStatus("concluded"), () => {
+  it(testStatus("concluded"), () => {
     testData.status = "concluded";
     result = setProperStatus(testData);
     expect(result.status).toBe("concluded");
   });
 
-  test(testStatus("delayed"), () => {
+  it(testStatus("delayed"), () => {
     testData.date.day = today.getDate() - 1;
     result = setProperStatus(testData);
     expect(result.status).toBe("delayed");
@@ -118,12 +119,14 @@ describe(descriptionFor("monthly"), () => {
 describe(descriptionFor("yearly"), () => {
   beforeEach(() => (testData.type = "yearly"));
 
-  test(testStatus("today"), () => {
+  it(testStatus("today"), () => {
     result = setProperStatus(testData);
     expect(result.status).toBe("today");
   });
 
-  test(testStatus("pending"), () => {
+  test.todo("test for leap year");
+
+  it(testStatus("pending"), () => {
     testData.date.day = today.getDate() + 1;
     result = setProperStatus(testData);
     expect(testData.status).toBe("pending");
@@ -132,13 +135,13 @@ describe(descriptionFor("yearly"), () => {
     expect(testData.status).toBe("pending");
   });
 
-  test(testStatus("concluded"), () => {
+  it(testStatus("concluded"), () => {
     testData.status = "concluded";
     result = setProperStatus(testData);
     expect(testData.status).toBe("concluded");
   });
 
-  test(testStatus("delayed"), () => {
+  it(testStatus("delayed"), () => {
     testData.date.day = today.getDate() - 1;
     result = setProperStatus(testData);
     expect(testData.status).toBe("delayed");
@@ -151,12 +154,12 @@ describe(descriptionFor("yearly"), () => {
 describe(descriptionFor("someday"), () => {
   beforeEach(() => (testData.type = "someday"));
 
-  test(testStatus("someday"), () => {
+  it(testStatus("someday"), () => {
     result = setProperStatus(testData);
     expect(result.status).toBe("someday");
   });
 
-  test(testStatus("concluded"), () => {
+  it(testStatus("concluded"), () => {
     testData.status = "concluded";
     result = setProperStatus(testData);
     expect(result.status).toBe("concluded");
