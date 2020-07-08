@@ -8,7 +8,7 @@ class CreateTodoModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      formData: Object.assign({}, props.data),
+      formData: JSON.parse(JSON.stringify(props.data)),
       formIsInvalid: false,
     };
     this.originalContext = props.data.context;
