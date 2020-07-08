@@ -22,12 +22,20 @@ const ContextObserver = {
   },
 };
 
+function getContexts(name) {
+  return contexts;
+}
+
+function isContextDuplicate(name) {
+  return contexts.some((context) => context === name.toLowerCase());
+}
+
 function saveToLocalStorage() {
   localStorage.contexts = JSON.stringify(contexts);
 }
 
 function addContext(name) {
-  contexts.push(name);
+  contexts.push(name.toLowerCase());
   ContextObserver.notify();
   saveToLocalStorage();
 }
@@ -39,4 +47,10 @@ function deleteContext(name) {
   saveToLocalStorage();
 }
 
-export { addContext, deleteContext, ContextObserver };
+export {
+  getContexts,
+  isContextDuplicate,
+  addContext,
+  deleteContext,
+  ContextObserver,
+};

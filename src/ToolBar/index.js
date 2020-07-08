@@ -5,7 +5,19 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Octicon, { ThreeBars, Plus, X } from "@primer/octicons-react";
 import DeleteAlert from "./DeleteAlert";
-import { deleteContext } from "../contextManager";
+import { getContexts, deleteContext } from "../contextManager";
+
+function sortContexts(a, b) {
+  if (a === b) {
+    return 0;
+  } else if (a === "deleted") {
+    return 1;
+  } else if (b === "deleted") {
+    return -1;
+  } else {
+    return a > b ? 1 : -1;
+  }
+}
 
 class ToolBar extends React.Component {
   constructor(props) {
@@ -52,28 +64,18 @@ class ToolBar extends React.Component {
   }
 
   onDelete() {
-    deleteContext(this.props.contextName);
+    deleteContext(this.props.currentContext);
     this.props.changeContext("general");
   }
 
   render() {
-    const contexts = this.props.contexts
-      .sort((a, b) => {
-        if (a === b) {
-          return 0;
-        } else if (a === "deleted") {
-          return 1;
-        } else if (b === "deleted") {
-          return -1;
-        } else {
-          return a > b ? 1 : -1;
-        }
-      })
+    const contexts = getContexts()
+      .sort(sortContexts)
       .map((context, index) => {
         return (
           <Nav.Item
             className={`p-2 text-capitalize text-light ${
-              context === this.props.contextName ? "selected-nav-item" : ""
+              context === this.props.currentContext ? "selected-nav-item" : ""
             }`}
             role="menuitem"
             tabIndex={0}
@@ -132,8 +134,8 @@ class ToolBar extends React.Component {
           </Nav.Item>
           <Nav.Item
             className={`my-2 ${
-              this.props.contextName === "general" ||
-              this.props.contextName === "deleted"
+              this.props.currentContext === "general" ||
+              this.props.currentContext === "deleted"
                 ? "d-none"
                 : ""
             }`}

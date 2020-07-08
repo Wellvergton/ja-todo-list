@@ -4,7 +4,7 @@ import WeeklyOption from "./WeeklyOption";
 import MonthlyOption from "./MonthlyOption";
 import YearlyOptions from "./YearlyOption";
 
-class BaseForm extends React.Component {
+export default class BaseForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -114,5 +114,3 @@ class BaseForm extends React.Component {
     );
   }
 }
-
-export default BaseForm;

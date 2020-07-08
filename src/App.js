@@ -6,7 +6,7 @@ import CreateTodoModal from "./CreateEditTodoModal/CreateTodoModal";
 import EditTodoModal from "./CreateEditTodoModal/EditTodoModal";
 import Todo from "./Todo";
 import ToolBar from "./ToolBar";
-import DeletedTodosSection from "./DeletedTodosSection";
+import DeletedTodosScreen from "./DeletedTodosScreen";
 import setProperStatus from "./setProperStatus";
 import { TodosObserver } from "./todoManager";
 import { ContextObserver } from "./contextManager";
@@ -49,8 +49,8 @@ class App extends React.Component {
   }
 
   showHideEditTodoModal(data) {
-    this.setState({ dataForEdit: data });
     this.setState({
+      dataForEdit: data,
       showEditTodoModal: !this.state.showEditTodoModal,
     });
   }
@@ -122,7 +122,6 @@ class App extends React.Component {
         {this.state.showCreateContextModal && (
           <CreateContextModal
             show={this.state.showCreateContextModal}
-            contexts={this.state.contexts}
             onClose={this.showHideContextModal}
             onSave={this.setCurrentContext}
           />
@@ -148,8 +147,7 @@ class App extends React.Component {
         )}
         <ToolBar
           ref={this.toolBar}
-          contexts={this.state.contexts}
-          contextName={this.state.currentContext}
+          currentContext={this.state.currentContext}
           changeContext={this.setCurrentContext}
           showHideTodoModal={this.showHideCreateTodoModal}
           showHideContextModal={this.showHideContextModal}
@@ -157,10 +155,7 @@ class App extends React.Component {
         />
         <Row as="main" className="mx-0">
           {this.state.currentContext === "deleted" ? (
-            <DeletedTodosSection
-              todos={this.state.todos}
-              restoreTodo={this.restoreTodo}
-            />
+            <DeletedTodosScreen />
           ) : (
             sections
           )}

@@ -112,6 +112,10 @@ function editTodo(data) {
   saveTodosToLocalStorage();
 }
 
+function getTodosBy(property, value) {
+  return todos.filter((todo) => todo[property] === value);
+}
+
 export {
   setTodoAsDeleted,
   deleteTodoPermanently,
@@ -119,5 +123,6 @@ export {
   concludeTodo,
   addTodo,
   editTodo,
+  getTodosBy,
   TodosObserver,
 };

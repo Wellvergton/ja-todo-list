@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 
-function CheckButton(props) {
+export default function CheckButton(props) {
   function handleClick() {
     if (props.status !== "deleted") {
       props.onClick("onConclude");
@@ -20,5 +20,3 @@ function CheckButton(props) {
     </Button>
   );
 }
-
-export default CheckButton;

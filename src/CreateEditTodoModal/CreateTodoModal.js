@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import BaseForm from "./BaseForm";
 import { addTodo } from "../todoManager";
 
-class CreateTodoModal extends React.Component {
+export default class CreateTodoModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -141,5 +141,3 @@ class CreateTodoModal extends React.Component {
     );
   }
 }
-
-export default CreateTodoModal;

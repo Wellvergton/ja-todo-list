@@ -4,7 +4,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
-function MonthlyOptions(props) {
+export default function MonthlyOptions(props) {
   const [selectedDay, setSelectedDay] = useState(props.selectedDay);
   let days = [];
 
@@ -43,5 +43,3 @@ function MonthlyOptions(props) {
     </>
   );
 }
-
-export default MonthlyOptions;

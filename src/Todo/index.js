@@ -11,7 +11,7 @@ import {
   concludeTodo as onConclude,
 } from "../todoManager";
 
-class Todo extends React.Component {
+export default class Todo extends React.Component {
   constructor(props) {
     super(props);
     this.todo = React.createRef();
@@ -102,5 +102,3 @@ class Todo extends React.Component {
     );
   }
 }
-
-export default Todo;

@@ -7,7 +7,7 @@ import Row from "react-bootstrap/Row";
 import Octicon, { Check, Sync, Trashcan } from "@primer/octicons-react";
 import CheckButton from "./CheckButton";
 
-function Main(props) {
+export default function Main(props) {
   return (
     <div className="Main">
       <Container>
@@ -47,5 +47,3 @@ function Main(props) {
     </div>
   );
 }
-
-export default Main;

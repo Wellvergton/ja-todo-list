@@ -2,9 +2,9 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import { addContext } from "../contextManager";
+import { addContext, isContextDuplicate } from "../contextManager";
 
-class CreateContextModal extends React.Component {
+export default class CreateContextModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = { newContextName: "", nameIsInvalid: false };
@@ -26,13 +26,11 @@ class CreateContextModal extends React.Component {
 
   handleInput(event) {
     const value = event.target.value;
-    const contexts = this.props.contexts;
 
-    this.setState({ newContextName: value.toLowerCase() });
-
-    contexts.includes(value.toLowerCase())
-      ? this.setState({ nameIsInvalid: true })
-      : this.setState({ nameIsInvalid: false });
+    this.setState({
+      newContextName: value.toLowerCase(),
+      nameIsInvalid: isContextDuplicate(value),
+    });
   }
 
   render() {
@@ -95,5 +93,3 @@ class CreateContextModal extends React.Component {
     );
   }
 }
-
-export default CreateContextModal;

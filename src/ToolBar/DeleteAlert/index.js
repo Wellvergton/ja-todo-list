@@ -3,7 +3,7 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-function DeleteAlert(props) {
+export default function DeleteAlert(props) {
   return (
     <Modal
       show={props.show}
@@ -39,5 +39,3 @@ function DeleteAlert(props) {
     </Modal>
   );
 }
-
-export default DeleteAlert;

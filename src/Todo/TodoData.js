@@ -8,7 +8,7 @@ import Weekly from "./Weekly";
 import Monthly from "./Monthly";
 import Yearly from "./Yearly";
 
-function TodoData(props) {
+export default function TodoData(props) {
   let dataTypes = {
     daily: <p className="font-weight-bold">Everyday</p>,
     weekly: <Weekly days={props.date} />,
@@ -38,5 +38,3 @@ function TodoData(props) {
     </>
   );
 }
-
-export default TodoData;

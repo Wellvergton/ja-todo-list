@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 
-function WeeklyOption(props) {
+export default function WeeklyOption(props) {
   const days = [
     "sunday",
     "monday",
@@ -58,5 +58,3 @@ function WeeklyOption(props) {
     </>
   );
 }
-
-export default WeeklyOption;

@@ -1,6 +1,6 @@
 import React from "react";
 
-function Yearly(props) {
+export default function Yearly(props) {
   let date = new Date();
   const baseYear =
     props.date.month > date.getMonth()
@@ -19,5 +19,3 @@ function Yearly(props) {
 
   return <p className="font-weight-bold">{date}</p>;
 }
-
-export default Yearly;

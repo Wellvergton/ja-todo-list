@@ -1,6 +1,6 @@
 import React from "react";
 
-function Weekly(props) {
+export default function Weekly(props) {
   let daysIndicators = [];
   const daysOfTheWeek = {
     "0": "sun",
@@ -10,7 +10,7 @@ function Weekly(props) {
     "4": "thu",
     "5": "fri",
     "6": "sat",
-  }
+  };
 
   for (let day of props.days) {
     daysIndicators.push(
@@ -26,5 +26,3 @@ function Weekly(props) {
     </div>
   );
 }
-
-export default Weekly;

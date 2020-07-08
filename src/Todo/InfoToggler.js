@@ -3,7 +3,7 @@ import "./InfoToggler.scss";
 import Button from "react-bootstrap/Button";
 import Octicon, { ChevronDown } from "@primer/octicons-react";
 
-function InfoToggler(props) {
+export default function InfoToggler(props) {
   function animateChevron(chevronElement) {
     if (chevronElement.style.rotate === "") {
       chevronElement.style.rotate = "180deg";
@@ -29,5 +29,3 @@ function InfoToggler(props) {
     </Button>
   );
 }
-
-export default InfoToggler;
