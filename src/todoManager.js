@@ -80,6 +80,32 @@ function concludeTodo(id) {
   saveTodosToLocalStorage();
 }
 
+function isTodoDuplicatedOn(operation, newData, originalData) {
+  const newTitle = newData.title;
+  const newContext = newData.context;
+  const originalTitle = originalData.title;
+  const originalContext = originalData.context;
+  const operations = {
+    create() {
+      return todos.some((todo) => {
+        return todo.title === newTitle && todo.context === newContext;
+      });
+    },
+
+    edit() {
+      if (originalTitle === newTitle && originalContext === newContext) {
+        return false;
+      }
+
+      return todos.some((todo) => {
+        return todo.title === newTitle && todo.context === newContext;
+      });
+    },
+  };
+
+  return operations[operation]();
+}
+
 function addTodo(data) {
   const length = todos.length;
 
@@ -121,6 +147,7 @@ export {
   deleteTodoPermanently,
   restoreTodo,
   concludeTodo,
+  isTodoDuplicatedOn,
   addTodo,
   editTodo,
   getTodosBy,

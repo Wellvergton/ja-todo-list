@@ -2,7 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import BaseForm from "./BaseForm";
-import { editTodo } from "../todoManager";
+import { isTodoDuplicatedOn, editTodo } from "../todoManager";
 
 export default class CreateTodoModal extends React.Component {
   constructor(props) {
@@ -11,8 +11,7 @@ export default class CreateTodoModal extends React.Component {
       formData: JSON.parse(JSON.stringify(props.data)),
       formIsInvalid: false,
     };
-    this.originalContext = props.data.context;
-    this.originalTitle = props.data.title;
+    this.originalData = props.data;
     this.form = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.setDateFormat = this.setDateFormat.bind(this);
@@ -27,19 +26,12 @@ export default class CreateTodoModal extends React.Component {
   }
 
   handleSave() {
-    this.handleClose();
     editTodo(this.state.formData);
+    this.handleClose();
   }
 
   isTodoDuplicated() {
-    const title = this.state.formData.title;
-    const context = this.state.formData.context;
-    return (
-      this.originalContext !== context &&
-      this.props.todos.some((todo) => {
-        return todo.title === title && todo.context === context;
-      })
-    );
+    return isTodoDuplicatedOn("edit", this.state.formData, this.originalData);
   }
 
   validateInfo() {

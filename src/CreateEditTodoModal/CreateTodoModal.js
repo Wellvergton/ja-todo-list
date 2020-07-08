@@ -2,7 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import BaseForm from "./BaseForm";
-import { addTodo } from "../todoManager";
+import { isTodoDuplicatedOn, addTodo } from "../todoManager";
 
 export default class CreateTodoModal extends React.Component {
   constructor(props) {
@@ -32,16 +32,12 @@ export default class CreateTodoModal extends React.Component {
   }
 
   handleSave() {
-    this.handleClose();
     addTodo(this.state.formData);
+    this.handleClose();
   }
 
   isTodoDuplicated() {
-    const title = this.state.formData.title;
-    const context = this.state.formData.context;
-    return this.props.todos.some((todo) => {
-      return todo.title === title && todo.context === context;
-    });
+    return isTodoDuplicatedOn("create", this.state.formData);
   }
 
   validateInfo() {
