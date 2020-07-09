@@ -110,6 +110,7 @@ describe(descriptionFor("monthly"), () => {
   });
 
   it(testStatus("delayed"), () => {
+    testData.status = "today";
     testData.date.day = today.getDate() - 1;
     result = setProperStatus(testData);
     expect(result.status).toBe("delayed");
@@ -142,6 +143,7 @@ describe(descriptionFor("yearly"), () => {
   });
 
   it(testStatus("delayed"), () => {
+    testData.status = "today";
     testData.date.day = today.getDate() - 1;
     result = setProperStatus(testData);
     expect(testData.status).toBe("delayed");
