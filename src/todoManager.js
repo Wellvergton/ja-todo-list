@@ -83,8 +83,8 @@ function concludeTodo(id) {
 function isTodoDuplicatedOn(operation, newData, originalData) {
   const newTitle = newData.title;
   const newContext = newData.context;
-  const originalTitle = originalData.title;
-  const originalContext = originalData.context;
+  const originalTitle = originalData ? originalData.title : "";
+  const originalContext = originalData ? originalData.context : "";
   const operations = {
     create() {
       return todos.some((todo) => {
