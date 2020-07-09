@@ -95,7 +95,7 @@ describe(descriptionFor("monthly"), () => {
     expect(result.status).toBe("today");
   });
 
-  test.todo("test for the last days of the month");
+  it.todo("test for the last days of the month");
 
   it(testStatus("pending"), () => {
     testData.date.day = today.getDate() + 1;
@@ -125,7 +125,7 @@ describe(descriptionFor("yearly"), () => {
     expect(result.status).toBe("today");
   });
 
-  test.todo("test for leap year");
+  it.todo("test for leap year");
 
   it(testStatus("pending"), () => {
     testData.date.day = today.getDate() + 1;
