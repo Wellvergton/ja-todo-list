@@ -12,22 +12,16 @@ export default class CreateTodoModal extends React.Component {
       formIsInvalid: false,
     };
     this.originalData = props.data;
-    this.form = React.createRef();
-    this.handleChange = this.handleChange.bind(this);
-    this.setDateFormat = this.setDateFormat.bind(this);
-    this.validateInfo = this.validateInfo.bind(this);
-    this.handleClose = this.handleClose.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.isTodoDuplicated = this.isTodoDuplicated.bind(this);
-  }
-
-  handleClose() {
-    this.props.onClose();
+    this.validateInfo = this.validateInfo.bind(this);
+    this.setDateFormat = this.setDateFormat.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleSave() {
     editTodo(this.state.formData);
-    this.handleClose();
+    this.props.onClose();
   }
 
   isTodoDuplicated() {
@@ -97,7 +91,7 @@ export default class CreateTodoModal extends React.Component {
         show={this.props.show}
         animation={false}
         centered={true}
-        onHide={this.handleClose}
+        onHide={this.props.onClose}
         backdrop="static"
         aria-labelledby="edit-todo-modal-title"
       >
@@ -106,7 +100,6 @@ export default class CreateTodoModal extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <BaseForm
-            ref={this.form}
             formData={this.state.formData}
             contexts={this.props.contexts}
             handleChange={this.handleChange}
@@ -114,7 +107,7 @@ export default class CreateTodoModal extends React.Component {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={this.handleClose}>
+          <Button variant="secondary" onClick={this.props.onClose}>
             Close
           </Button>
           <Button
