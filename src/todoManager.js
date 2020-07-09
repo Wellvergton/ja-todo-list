@@ -143,6 +143,7 @@ function getTodosBy(property, value) {
 }
 
 export {
+  TodosObserver,
   setTodoAsDeleted,
   deleteTodoPermanently,
   restoreTodo,
@@ -151,5 +152,4 @@ export {
   addTodo,
   editTodo,
   getTodosBy,
-  TodosObserver,
 };
