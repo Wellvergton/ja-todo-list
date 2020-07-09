@@ -102,9 +102,7 @@ export default class CreateTodoModal extends React.Component {
         aria-labelledby="edit-todo-modal-title"
       >
         <Modal.Header>
-          <Modal.Title id="edit-todo-modal-title">
-            Create a new Todo
-          </Modal.Title>
+          <Modal.Title id="edit-todo-modal-title">Edit this Todo</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <BaseForm
