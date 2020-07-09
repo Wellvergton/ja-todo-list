@@ -22,7 +22,7 @@ const ContextObserver = {
   },
 };
 
-function getContexts(name) {
+function getContexts() {
   return contexts;
 }
 
@@ -48,9 +48,9 @@ function deleteContext(name) {
 }
 
 export {
+  ContextObserver,
   getContexts,
   isContextDuplicate,
   addContext,
   deleteContext,
-  ContextObserver,
 };
