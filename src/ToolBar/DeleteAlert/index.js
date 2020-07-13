@@ -18,7 +18,7 @@ export default function DeleteAlert(props) {
       </span>
       <Modal.Body className="p-0">
         <Alert variant="warning" className="m-0">
-          This action will delete this context and all related todos.
+          {props.alertInfo}
           <hr />
           <div>
             <Button variant="success" className="mr-2" onClick={props.onHide}>
