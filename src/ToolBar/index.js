@@ -5,6 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Octicon, { ThreeBars, Plus, X } from "@primer/octicons-react";
 import DeleteAlert from "./DeleteAlert";
+import EditableTitle from "./EditableTitle";
 import { getContexts, deleteContext } from "../contextManager";
 import { deleteTodoPermanently } from "../todoManager";
 
@@ -126,7 +127,10 @@ class ToolBar extends React.Component {
           />
         </Button>
         <Navbar.Text className="text-capitalize text-light">
-          {this.props.contextName}
+          <EditableTitle
+            defaultValue={this.props.currentContext}
+            onBlur={this.props.changeContext}
+          />
         </Navbar.Text>
         <Button
           variant="dark"

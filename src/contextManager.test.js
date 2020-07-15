@@ -3,6 +3,7 @@ import {
   getContexts,
   isContextDuplicate,
   addContext,
+  updateContextName,
   deleteContext,
 } from "./contextManager";
 
@@ -20,7 +21,7 @@ it("should ensure that contexts has get the firsts contexts", () => {
   expect(Array.isArray(contexts)).toBeTruthy();
 });
 
-it("sould ensure that getContext return the same context given by the observer", () => {
+it("should ensure that getContext return the same context given by the observer", () => {
   expect(
     getContexts().every((context) => contexts.includes(context))
   ).toBeTruthy();
@@ -35,6 +36,17 @@ it("should add a new context", () => {
   addContext("test");
 
   expect(contexts).toContain("test");
+});
+
+it("should update a context name", () => {
+  addContext("to update");
+
+  expect(contexts).toContain("to update");
+
+  updateContextName("to update", "updated");
+
+  expect(contexts).not.toContain("to update");
+  expect(contexts).toContain("updated");
 });
 
 it("should delete a context", () => {

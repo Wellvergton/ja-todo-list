@@ -40,6 +40,12 @@ function addContext(name) {
   saveToLocalStorage();
 }
 
+function updateContextName(oldName, newName) {
+  contexts[contexts.indexOf(oldName.toLowerCase())] = newName.toLowerCase();
+  ContextObserver.notify();
+  saveToLocalStorage();
+}
+
 function deleteContext(name) {
   deleteTodoPermanently("context", name);
   contexts = contexts.filter((context) => context !== name);
@@ -52,5 +58,6 @@ export {
   getContexts,
   isContextDuplicate,
   addContext,
+  updateContextName,
   deleteContext,
 };
