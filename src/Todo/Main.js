@@ -1,10 +1,13 @@
 import React from "react";
 import "./Main.scss";
+
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
+
 import Octicon, { Check, Sync, Trashcan } from "@primer/octicons-react";
+
 import CheckButton from "./CheckButton";
 
 export default function Main(props) {

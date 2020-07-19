@@ -1,12 +1,15 @@
 import React from "react";
+
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+
 import CreateContextModal from "./CreateContextModal";
 import CreateTodoModal from "./CreateEditTodoModal/CreateTodoModal";
 import EditTodoModal from "./CreateEditTodoModal/EditTodoModal";
 import Todo from "./Todo";
 import ToolBar from "./ToolBar";
 import DeletedTodosScreen from "./DeletedTodosScreen";
+
 import setProperStatus from "./setProperStatus";
 import { TodosObserver } from "./todoManager";
 import { ContextObserver } from "./contextManager";

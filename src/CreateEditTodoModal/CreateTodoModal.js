@@ -1,7 +1,10 @@
 import React from "react";
+
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+
 import BaseForm from "./BaseForm";
+
 import { isTodoDuplicatedOn, addTodo } from "../todoManager";
 
 export default class CreateTodoModal extends React.Component {

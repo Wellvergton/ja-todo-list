@@ -1,11 +1,15 @@
 import React from "react";
 import "./index.scss";
+
 import Button from "react-bootstrap/Button";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+
 import Octicon, { ThreeBars, Plus, X } from "@primer/octicons-react";
+
 import DeleteAlert from "./DeleteAlert";
 import EditableTitle from "./EditableTitle";
+
 import { getContexts, deleteContext } from "../contextManager";
 import { deleteTodoPermanently } from "../todoManager";
 

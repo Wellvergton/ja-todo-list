@@ -1,7 +1,9 @@
 import React from "react";
+
 import Form from "react-bootstrap/Form";
-import WeeklyOption from "./WeeklyOption";
+
 import MonthlyOption from "./MonthlyOption";
+import WeeklyOption from "./WeeklyOption";
 import YearlyOptions from "./YearlyOption";
 
 export default class BaseForm extends React.Component {

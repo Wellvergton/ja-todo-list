@@ -1,5 +1,6 @@
 import React from "react";
 import "./index.scss";
+
 import Card from "react-bootstrap/Card";
 
 import Main from "./Main";

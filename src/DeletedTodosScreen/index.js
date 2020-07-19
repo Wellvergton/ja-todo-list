@@ -1,6 +1,8 @@
 import React from "react";
+
 import Col from "react-bootstrap/Col";
 import Todo from "../Todo";
+
 import { getTodosBy, restoreTodo } from "../todoManager";
 
 export default function DeletedTodosScreen(props) {

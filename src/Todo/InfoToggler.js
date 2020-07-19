@@ -1,6 +1,8 @@
 import React from "react";
 import "./InfoToggler.scss";
+
 import Button from "react-bootstrap/Button";
+
 import Octicon, { ChevronDown } from "@primer/octicons-react";
 
 export default function InfoToggler(props) {
