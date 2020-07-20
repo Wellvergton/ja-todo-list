@@ -12,24 +12,26 @@ export default class BaseForm extends React.Component {
     this.state = {
       titleIsBlank: false,
       todoIsDuplicate: false,
-      noDateIsSelected: false,
     };
     this.validateForm = this.validateForm.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
   validateForm() {
-    const date = this.props.formData.date;
     this.setState({
       todoIsDuplicate: this.props.checkDuplicate(),
-      noDateIsSelected: Array.isArray(date) && date.length === 0,
       titleIsBlank: this.props.formData.title === "",
     });
   }
 
   onChange(event) {
     this.props.handleChange(event);
-    this.validateForm();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.formData.title !== this.props.formData.title) {
+      this.validateForm();
+    }
   }
 
   render() {
