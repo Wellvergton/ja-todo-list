@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -7,40 +7,31 @@ import BaseForm from "./BaseForm";
 
 import { isTodoDuplicatedOn, editTodo } from "../todoManager";
 
-export default class CreateTodoModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      formData: JSON.parse(JSON.stringify(props.data)),
-      formIsInvalid: false,
-    };
-    this.originalData = props.data;
-    this.handleSave = this.handleSave.bind(this);
-    this.isTodoDuplicated = this.isTodoDuplicated.bind(this);
-    this.validateInfo = this.validateInfo.bind(this);
-    this.setDateFormat = this.setDateFormat.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+export default function EditTodoModal(props) {
+  const [formData, setFormData] = useState(
+    JSON.parse(JSON.stringify(props.data))
+  );
+  const [formIsInvalid, setFormIsInvalid] = useState(false);
+  const originalData = props.data;
+
+  useEffect(validateInfo, [formData]);
+
+  function handleSave() {
+    editTodo(formData);
+    props.onClose();
   }
 
-  handleSave() {
-    editTodo(this.state.formData);
-    this.props.onClose();
+  function isTodoDuplicated() {
+    return isTodoDuplicatedOn("edit", formData, originalData);
   }
 
-  isTodoDuplicated() {
-    return isTodoDuplicatedOn("edit", this.state.formData, this.originalData);
+  function validateInfo() {
+    setFormIsInvalid(
+      formData.title === "" || isTodoDuplicated() || formData.date.length === 0
+    );
   }
 
-  validateInfo() {
-    this.setState({
-      formIsInvalid:
-        this.state.formData.title === "" ||
-        this.isTodoDuplicated() ||
-        this.state.formData.date.length === 0,
-    });
-  }
-
-  setDateFormat(type) {
+  function setDateFormat(type) {
     let format;
 
     switch (type) {
@@ -61,13 +52,13 @@ export default class CreateTodoModal extends React.Component {
     return format;
   }
 
-  handleChange(event) {
+  function handleChange(event) {
     const name = event.target.name;
     const value = event.target.value;
-    const formDataCopy = this.state.formData;
+    const formDataCopy = JSON.parse(JSON.stringify(formData));
 
     if (name === "type") {
-      formDataCopy.date = this.setDateFormat(value);
+      formDataCopy.date = setDateFormat(value);
     }
 
     if (name === "weekly") {
@@ -84,44 +75,37 @@ export default class CreateTodoModal extends React.Component {
       formDataCopy[name] = value;
     }
 
-    this.setState({ formData: formDataCopy });
-    this.validateInfo();
+    setFormData(formDataCopy);
   }
 
-  render() {
-    return (
-      <Modal
-        show={this.props.show}
-        animation={false}
-        centered={true}
-        onHide={this.props.onClose}
-        backdrop="static"
-        aria-labelledby="edit-todo-modal-title"
-      >
-        <Modal.Header>
-          <Modal.Title id="edit-todo-modal-title">Edit this Todo</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <BaseForm
-            formData={this.state.formData}
-            contexts={this.props.contexts}
-            handleChange={this.handleChange}
-            checkDuplicate={this.isTodoDuplicated}
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={this.props.onClose}>
-            Close
-          </Button>
-          <Button
-            variant="primary"
-            disabled={this.state.formIsInvalid}
-            onClick={this.handleSave}
-          >
-            Save
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
+  return (
+    <Modal
+      show={props.show}
+      animation={false}
+      centered={true}
+      onHide={props.onClose}
+      backdrop="static"
+      aria-labelledby="edit-todo-modal-title"
+    >
+      <Modal.Header>
+        <Modal.Title id="edit-todo-modal-title">Edit this Todo</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <BaseForm
+          formData={formData}
+          contexts={props.contexts}
+          handleChange={handleChange}
+          checkDuplicate={isTodoDuplicated}
+        />
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={props.onClose}>
+          Close
+        </Button>
+        <Button variant="primary" disabled={formIsInvalid} onClick={handleSave}>
+          Save
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
 }
