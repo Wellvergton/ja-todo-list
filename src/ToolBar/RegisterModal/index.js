@@ -16,7 +16,11 @@ export default function SignInModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {props.registerType === "sign in" ? <SignInForm /> : <SignUpForm />}
+        {props.registerType === "sign in" ? (
+          <SignInForm onSuccess={props.handleClose} />
+        ) : (
+          <SignUpForm onSuccess={props.handleClose} />
+        )}
       </Modal.Body>
       <Modal.Footer>
         <ToggleButtonGroup
