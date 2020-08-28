@@ -9,7 +9,7 @@ import SignUpForm from "./SignUpForm";
 
 export default function SignInModal(props) {
   return (
-    <Modal show={props.show} onHide={props.handleClose}>
+    <Modal show={props.show} animation={false} onHide={props.handleClose}>
       <Modal.Header closeButton>
         <Modal.Title className="text-capitalize">
           {props.registerType}
