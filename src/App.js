@@ -14,6 +14,8 @@ import setProperStatus from "./setProperStatus";
 import { TodosObserver } from "./todoManager";
 import { ContextObserver } from "./contextManager";
 
+import { SessionContext } from "./SessionContext";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -25,6 +27,7 @@ class App extends React.Component {
       showCreateTodoModal: false,
       showEditTodoModal: false,
       dataForEdit: {},
+      isSigned: false,
     };
     this.toolBar = React.createRef();
     this.wrapper = React.createRef();
@@ -33,6 +36,7 @@ class App extends React.Component {
     this.showHideCreateTodoModal = this.showHideCreateTodoModal.bind(this);
     this.showHideEditTodoModal = this.showHideEditTodoModal.bind(this);
     this.setPaddingTop = this.setPaddingTop.bind(this);
+    this.setIsSigned = this.setIsSigned.bind(this);
   }
 
   setCurrentContext(name) {
@@ -63,6 +67,32 @@ class App extends React.Component {
     this.wrapper.current.style.paddingTop = `${toolBarHeight}px`;
   }
 
+  async setIsSigned(value) {
+    if (value !== undefined) {
+      this.setState({ isSigned: value });
+    } else {
+      const URL = "http://localhost:3001/todos/";
+      const requestInit = {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+        cache: "default",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      };
+
+      const response = await fetch(URL, requestInit);
+
+      if (response.status === 200) {
+        this.setState({ isSigned: true });
+      } else {
+        this.setState({ isSigned: false });
+      }
+    }
+  }
+
   componentDidMount() {
     this.setPaddingTop();
 
@@ -71,6 +101,8 @@ class App extends React.Component {
     ContextObserver.subscribe((contexts) =>
       this.setState({ contexts: contexts })
     );
+
+    this.setIsSigned();
   }
 
   componentWillUnmount() {
@@ -121,49 +153,53 @@ class App extends React.Component {
     }
 
     return (
-      <div className="App" ref={this.wrapper}>
-        {this.state.showCreateContextModal && (
-          <CreateContextModal
-            show={this.state.showCreateContextModal}
-            onClose={this.showHideContextModal}
-            onSave={this.setCurrentContext}
-          />
-        )}
-        {this.state.showCreateTodoModal && (
-          <CreateTodoModal
-            show={this.state.showCreateTodoModal}
-            contexts={this.state.contexts}
-            currentContext={this.state.currentContext}
-            todos={this.state.todos}
-            onClose={this.showHideCreateTodoModal}
-          />
-        )}
-        {this.state.showEditTodoModal && (
-          <EditTodoModal
-            data={this.state.dataForEdit}
-            show={this.state.showEditTodoModal}
-            contexts={this.state.contexts}
-            currentContext={this.state.currentContext}
-            todos={this.state.todos}
-            onClose={this.showHideEditTodoModal}
-          />
-        )}
-        <ToolBar
-          ref={this.toolBar}
-          currentContext={this.state.currentContext}
-          changeContext={this.setCurrentContext}
-          showHideTodoModal={this.showHideCreateTodoModal}
-          showHideContextModal={this.showHideContextModal}
-          onShowMenu={this.setPaddingTop}
-        />
-        <Row as="main" className="mx-0">
-          {this.state.currentContext === "deleted" ? (
-            <DeletedTodosScreen />
-          ) : (
-            sections
+      <SessionContext.Provider
+        value={{ isSigned: this.state.isSigned, setIsSigned: this.setIsSigned }}
+      >
+        <div className="App" ref={this.wrapper}>
+          {this.state.showCreateContextModal && (
+            <CreateContextModal
+              show={this.state.showCreateContextModal}
+              onClose={this.showHideContextModal}
+              onSave={this.setCurrentContext}
+            />
           )}
-        </Row>
-      </div>
+          {this.state.showCreateTodoModal && (
+            <CreateTodoModal
+              show={this.state.showCreateTodoModal}
+              contexts={this.state.contexts}
+              currentContext={this.state.currentContext}
+              todos={this.state.todos}
+              onClose={this.showHideCreateTodoModal}
+            />
+          )}
+          {this.state.showEditTodoModal && (
+            <EditTodoModal
+              data={this.state.dataForEdit}
+              show={this.state.showEditTodoModal}
+              contexts={this.state.contexts}
+              currentContext={this.state.currentContext}
+              todos={this.state.todos}
+              onClose={this.showHideEditTodoModal}
+            />
+          )}
+          <ToolBar
+            ref={this.toolBar}
+            currentContext={this.state.currentContext}
+            changeContext={this.setCurrentContext}
+            showHideTodoModal={this.showHideCreateTodoModal}
+            showHideContextModal={this.showHideContextModal}
+            onShowMenu={this.setPaddingTop}
+          />
+          <Row as="main" className="mx-0">
+            {this.state.currentContext === "deleted" ? (
+              <DeletedTodosScreen />
+            ) : (
+              sections
+            )}
+          </Row>
+        </div>
+      </SessionContext.Provider>
     );
   }
 }
