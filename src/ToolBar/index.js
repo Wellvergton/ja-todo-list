@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import "./index.scss";
 
 import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 
@@ -10,7 +9,7 @@ import Octicon, { ThreeBars, Plus, X } from "@primer/octicons-react";
 
 import DeleteAlert from "./DeleteAlert";
 import EditableTitle from "./EditableTitle";
-import RegisterModal from "./RegisterModal";
+import SignButtons from "./SignButtons";
 
 import { getContexts, deleteContext } from "../contextManager";
 import { deleteTodoPermanently } from "../todoManager";
@@ -31,8 +30,6 @@ function ToolBar(props) {
   const [menuIsVisible, setMenuIsVisible] = useState(false);
   const [deleteAlertIsVisible, setDeleteAlertIsVisible] = useState(false);
   const [deleteAlertType, setDeleteAlertType] = useState("forDeleteContext");
-  const [signModalIsVisible, setSignModalIsVisible] = useState(false);
-  const [signModalType, setSignModalType] = useState("sign in");
 
   useEffect(() => {
     setNavStyle();
@@ -169,38 +166,13 @@ function ToolBar(props) {
           </Button>
         </Nav.Item>
         <Nav.Item className="my-2 d-flex justify-content-center">
-          <ButtonGroup aria-label="Register">
-            <Button
-              variant="outline-light"
-              onClick={() => {
-                setSignModalType("sign in");
-                setSignModalIsVisible(true);
-              }}
-            >
-              <span className="font-weight-bold">Sign in</span>
-            </Button>
-            <Button
-              variant="outline-light"
-              onClick={() => {
-                setSignModalType("sign up");
-                setSignModalIsVisible(true);
-              }}
-            >
-              <span className="font-weight-bold">Sign up</span>
-            </Button>
-          </ButtonGroup>
+          <SignButtons />
         </Nav.Item>
         <DeleteAlert
           show={deleteAlertIsVisible}
           onHide={hideDeleteAlert}
           alertInfo={alertData[deleteAlertType].warning}
           onDelete={alertData[deleteAlertType].onDelete}
-        />
-        <RegisterModal
-          show={signModalIsVisible}
-          handleClose={() => setSignModalIsVisible(false)}
-          handleChange={setSignModalType}
-          registerType={signModalType}
         />
       </Nav>
     </Navbar>

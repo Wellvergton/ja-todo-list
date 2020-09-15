@@ -3,16 +3,19 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
+import { SessionContext } from "../../SessionContext";
+
 export default function SignInForm(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
 
-  async function submit() {
+  async function submit(onOKCallback) {
     const URL = "http://localhost:3001/login/";
     const requestInit = {
       method: "POST",
       mode: "cors",
+      credentials: "include",
       cache: "default",
       headers: {
         Accept: "application/json",
@@ -25,6 +28,7 @@ export default function SignInForm(props) {
 
     if (response.status === 200) {
       props.onSuccess();
+      onOKCallback(response.ok);
     } else {
       const responseJson = await response.json();
 
@@ -37,39 +41,43 @@ export default function SignInForm(props) {
   }
 
   return (
-    <Form>
-      <Form.Group controlId="formEmail">
-        <Form.Label>Email</Form.Label>
-        <Form.Control
-          type="email"
-          placeholder="exemple@email.com"
-          onInput={(event) => setEmail(event.target.value)}
-        />
-        <Form.Text className="text-danger">
-          {responseMessage === "User not found" ? responseMessage : ""}
-        </Form.Text>
-      </Form.Group>
-      <Form.Group controlId="formPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          type="password"
-          onInput={(event) => setPassword(event.target.value)}
-        />
-        <Form.Text className="text-danger">
-          {responseMessage === "Incorrect password" ? responseMessage : ""}
-        </Form.Text>
-      </Form.Group>
-      <Button
-        variant="primary"
-        type="submit"
-        disabled={formIsInvalid()}
-        onClick={(event) => {
-          event.preventDefault();
-          submit();
-        }}
-      >
-        Submit
-      </Button>
-    </Form>
+    <SessionContext.Consumer>
+      {({ isSigned, setIsSigned }) => (
+        <Form>
+          <Form.Group controlId="formEmail">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="exemple@email.com"
+              onInput={(event) => setEmail(event.target.value)}
+            />
+            <Form.Text className="text-danger">
+              {responseMessage === "User not found" ? responseMessage : ""}
+            </Form.Text>
+          </Form.Group>
+          <Form.Group controlId="formPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              onInput={(event) => setPassword(event.target.value)}
+            />
+            <Form.Text className="text-danger">
+              {responseMessage === "Incorrect password" ? responseMessage : ""}
+            </Form.Text>
+          </Form.Group>
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={formIsInvalid()}
+            onClick={(event) => {
+              event.preventDefault();
+              submit(setIsSigned);
+            }}
+          >
+            Submit
+          </Button>
+        </Form>
+      )}
+    </SessionContext.Consumer>
   );
 }
