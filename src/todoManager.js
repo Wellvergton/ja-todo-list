@@ -111,9 +111,11 @@ function addTodo(data) {
 
   data.status = "pending";
 
-  for (let i = 1; i <= length + 1; i++) {
-    if (!todos.some((todo) => todo.id === i)) {
-      data.id = i;
+  if (!data.id) {
+    for (let i = 1; i <= length + 1; i++) {
+      if (!todos.some((todo) => todo.id === i)) {
+        data.id = i;
+      }
     }
   }
 
