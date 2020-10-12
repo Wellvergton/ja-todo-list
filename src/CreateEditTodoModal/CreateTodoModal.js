@@ -7,6 +7,31 @@ import BaseForm from "./BaseForm";
 
 import { isTodoDuplicatedOn, addTodo } from "../todoManager";
 
+async function saveTodo(data) {
+  const URL = "http://localhost:3001/todos/";
+  const requestInit = {
+    method: "POST",
+    mode: "cors",
+    credentials: "include",
+    cache: "default",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  try {
+    const response = await fetch(URL, requestInit);
+    const responseTodo = JSON.parse(await response.text());
+    responseTodo.date = JSON.parse(responseTodo.date);
+
+    addTodo(responseTodo);
+  } catch (error) {
+    addTodo(data);
+  }
+}
+
 export default function CreateTodoModal(props) {
   const [formData, setFormData] = useState({
     title: "",
@@ -21,7 +46,7 @@ export default function CreateTodoModal(props) {
   useEffect(validateInfo, [formData]);
 
   function handleSave() {
-    addTodo(formData);
+    saveTodo(formData);
     props.onClose();
   }
 
