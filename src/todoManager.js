@@ -134,6 +134,8 @@ function editTodo(data) {
     data.date = data.date.sort();
   }
 
+  data.status = "pending";
+
   todos = todos.map((todo) => (todo.id === data.id ? data : todo));
 
   TodosObserver.notify();
