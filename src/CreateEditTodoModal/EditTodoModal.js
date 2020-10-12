@@ -7,6 +7,31 @@ import BaseForm from "./BaseForm";
 
 import { isTodoDuplicatedOn, editTodo } from "../todoManager";
 
+async function updateTodo(data) {
+  const URL = "http://localhost:3001/todos/";
+  const requestInit = {
+    method: "PUT",
+    mode: "cors",
+    credentials: "include",
+    cache: "default",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  try {
+    const response = await fetch(URL, requestInit);
+    const responseTodo = JSON.parse(await response.text());
+    responseTodo.date = JSON.parse(responseTodo.date);
+
+    editTodo(responseTodo);
+  } catch (error) {
+    editTodo(data);
+  }
+}
+
 export default function EditTodoModal(props) {
   const [formData, setFormData] = useState(
     JSON.parse(JSON.stringify(props.data))
@@ -17,7 +42,8 @@ export default function EditTodoModal(props) {
   useEffect(validateInfo, [formData]);
 
   function handleSave() {
-    editTodo(formData);
+    updateTodo(formData);
+    // editTodo(formData);
     props.onClose();
   }
 
